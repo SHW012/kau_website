@@ -1,4 +1,3 @@
-// src/styles/SignupPage.styles.js
 import styled from "styled-components";
 
 export const SignupWrapper = styled.div`
@@ -69,5 +68,22 @@ export const ButtonPrimary = styled.button`
   cursor: pointer;
   &:hover {
     background: #1a8d82;
+  }
+`;
+
+// ✅ 비밀번호 토글 버튼
+export const TogglePasswordBtn = styled.button`
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: #888;
+  padding: 0;
+  &:hover {
+    color: #20b2aa;
   }
 `;

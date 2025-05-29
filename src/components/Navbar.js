@@ -1,5 +1,6 @@
+// src/components/Navbar.js
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   TopBar,
   TopBarLink,
@@ -10,7 +11,7 @@ import {
   SubMenu,
   SubMenuItem,
 } from "../styles/Navbar.styles";
-import kauLogo from "../assets/kau_nccoss.jpg"; // 이미지 로고 추가
+import kauLogo from "../assets/kau_nccoss.png";
 
 const items = [
   {
@@ -54,6 +55,9 @@ const items = [
 ];
 
 export default function Navbar() {
+  const location = useLocation();
+  const shouldShowLogo = location.pathname === "/"; // 로고는 홈에서만 보이도록 설정
+
   return (
     <>
       <TopBar>
@@ -67,13 +71,15 @@ export default function Navbar() {
 
       <Nav>
         <Logo>
-          <Link to="/">
-            <img
-              src={kauLogo}
-              alt="KAU NCCOSS"
-              style={{ height: "40px", objectFit: "contain" }}
-            />
-          </Link>
+          {shouldShowLogo && (
+            <Link to="/">
+              <img
+                src={kauLogo}
+                alt="KAU NCCOSS"
+                style={{ height: "40px", objectFit: "contain" }}
+              />
+            </Link>
+          )}
         </Logo>
 
         <Menu>

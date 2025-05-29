@@ -1,8 +1,14 @@
 // src/App.js
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import GlobalStyle from "./styles/GlobalStyle";
 import Navbar from "./components/Navbar";
+import PageHeader from "./components/PageHeader"; // 상단 이미지 포함 헤더
 import LandingPage from "./pages/LandingPage";
 
 import Intro from "./pages/about/Intro";
@@ -26,11 +32,15 @@ import QnA from "./pages/community/QnA";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 
-export default function App() {
+function AppContent() {
+  const location = useLocation();
+  const isLanding = location.pathname === "/";
+
   return (
-    <Router>
+    <>
       <GlobalStyle />
       <Navbar />
+      {!isLanding && <PageHeader />}
       <Routes>
         {/* Authentication */}
         <Route path="/login" element={<Login />} />
@@ -61,6 +71,14 @@ export default function App() {
         <Route path="/community/gallery" element={<Gallery />} />
         <Route path="/community/qna" element={<QnA />} />
       </Routes>
+    </>
+  );
+}
+
+export default function App() {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   );
 }
