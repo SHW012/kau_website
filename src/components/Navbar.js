@@ -1,4 +1,3 @@
-// src/components/Navbar.js
 import React from "react";
 import { Link } from "react-router-dom";
 import {
@@ -11,6 +10,7 @@ import {
   SubMenu,
   SubMenuItem,
 } from "../styles/Navbar.styles";
+import kauLogo from "../assets/kau_nccoss.jpg"; // 이미지 로고 추가
 
 const items = [
   {
@@ -67,8 +67,12 @@ export default function Navbar() {
 
       <Nav>
         <Logo>
-          <Link to="/" style={{ color: "#fff", textDecoration: "none" }}>
-            KAU-NCCOSS
+          <Link to="/">
+            <img
+              src={kauLogo}
+              alt="KAU NCCOSS"
+              style={{ height: "40px", objectFit: "contain" }}
+            />
           </Link>
         </Logo>
 

@@ -1,48 +1,73 @@
-// src/styles/Signup.styles.js
+// src/styles/SignupPage.styles.js
 import styled from "styled-components";
 
-export const AuthWrapper = styled.div`
+export const SignupWrapper = styled.div`
+  min-height: calc(100vh - 300px);
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
+  align-items: start;
+  padding: 40px 20px 20px;
+  background: #f5f7fa;
 `;
 
-export const AuthForm = styled.form`
+export const SignupCard = styled.div`
+  width: 100%;
+  max-width: 360px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 32px;
+`;
+
+export const Title = styled.h2`
+  text-align: center;
+  margin-bottom: 24px;
+  color: #333;
+  font-size: 1.75rem;
+`;
+
+export const Form = styled.form`
   display: flex;
   flex-direction: column;
-  width: 320px;
-  gap: 1rem;
-  padding: 2rem;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  gap: 16px;
 `;
 
-export const AuthTitle = styled.h2`
-  margin: 0;
-  text-align: center;
-  font-size: 1.5rem;
+export const InputGroup = styled.div`
+  position: relative;
 `;
 
-export const AuthLabel = styled.label`
-  font-size: 0.9rem;
-  font-weight: bold;
+export const Icon = styled.span`
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: #888;
 `;
 
-export const AuthInput = styled.input`
-  padding: 0.5rem;
-  font-size: 1rem;
+export const Input = styled.input`
+  width: 100%;
+  padding: 12px 16px;
+  padding-left: 40px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 6px;
+  font-size: 1rem;
+  &:focus {
+    outline: none;
+    border-color: #20b2aa;
+  }
 `;
 
-export const AuthButton = styled.button`
-  padding: 0.75rem;
-  font-size: 1rem;
-  background: #0074d9;
+export const ButtonPrimary = styled.button`
+  width: 100%;
+  padding: 12px;
+  background: #20b2aa;
   color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
+  font-size: 1rem;
   cursor: pointer;
+  &:hover {
+    background: #1a8d82;
+  }
 `;
