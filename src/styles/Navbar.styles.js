@@ -32,19 +32,32 @@ export const MenuItem = styled.li`
   cursor: pointer;
 
   &:hover > ul {
-    display: block;
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
   }
 `;
 
 export const SubMenu = styled.ul`
-  display: none;
   position: absolute;
-  top: 2.5rem;
+  top: 100%;
   left: 0;
   background: rgba(0, 0, 0, 0.8);
   padding: 0.5rem 0;
   list-style: none;
   border-radius: 4px;
+
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+
+  /* 유지: 마우스가 서브메뉴에 올라도 사라지지 않도록 */
+  &:hover {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+  }
 `;
 
 export const SubMenuItem = styled.li`
