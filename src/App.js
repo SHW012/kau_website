@@ -1,6 +1,7 @@
 // src/App.js
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import GlobalStyle from "./styles/GlobalStyle";
 import Navbar from "./components/Navbar";
 import LandingPage from "./pages/LandingPage";
 
@@ -22,25 +23,38 @@ import Media from "./pages/community/Media";
 import Gallery from "./pages/community/Gallery";
 import QnA from "./pages/community/QnA";
 
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+
 export default function App() {
   return (
     <Router>
+      <GlobalStyle />
       <Navbar />
       <Routes>
+        {/* Authentication */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+
+        {/* Landing */}
         <Route path="/" element={<LandingPage />} />
 
+        {/* About */}
         <Route path="/about/intro" element={<Intro />} />
         <Route path="/about/greeting" element={<Greeting />} />
         <Route path="/about/team" element={<Team />} />
         <Route path="/about/location" element={<Location />} />
 
+        {/* Programs */}
         <Route path="/programs/microdegree" element={<Microdegree />} />
         <Route path="/programs/wemeet" element={<Wemeet />} />
         <Route path="/programs/intern" element={<Intern />} />
 
+        {/* Apply */}
         <Route path="/apply/form" element={<Form />} />
         <Route path="/apply/my" element={<My />} />
 
+        {/* Community */}
         <Route path="/community/notice" element={<Notice />} />
         <Route path="/community/resources" element={<Resources />} />
         <Route path="/community/media" element={<Media />} />

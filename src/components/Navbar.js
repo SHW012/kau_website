@@ -2,6 +2,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import {
+  TopBar,
+  TopBarLink,
   Nav,
   Logo,
   Menu,
@@ -13,7 +15,7 @@ import {
 const items = [
   {
     label: "사업단 소개",
-    to: "/about",
+    to: "/about/intro",
     sub: [
       { label: "사업단소개", to: "/about/intro" },
       { label: "인사말", to: "/about/greeting" },
@@ -23,7 +25,7 @@ const items = [
   },
   {
     label: "교육 프로그램",
-    to: "/programs",
+    to: "/programs/microdegree",
     sub: [
       { label: "차세대통신 마이크로디그리", to: "/programs/microdegree" },
       { label: "WE-MEET 프로젝트", to: "/programs/wemeet" },
@@ -32,7 +34,7 @@ const items = [
   },
   {
     label: "프로그램 신청",
-    to: "/apply",
+    to: "/apply/form",
     sub: [
       { label: "프로그램 신청", to: "/apply/form" },
       { label: "내 프로그램", to: "/apply/my", disabled: true },
@@ -40,7 +42,7 @@ const items = [
   },
   {
     label: "커뮤니티",
-    to: "/community",
+    to: "/community/notice",
     sub: [
       { label: "공지사항", to: "/community/notice" },
       { label: "자료실", to: "/community/resources" },
@@ -53,45 +55,57 @@ const items = [
 
 export default function Navbar() {
   return (
-    <Nav>
-      <Logo>
-        <Link to="/" style={{ color: "#fff", textDecoration: "none" }}>
-          KAU-NCCOSS
-        </Link>
-      </Logo>
-      <Menu>
-        {items.map((item, i) => (
-          <MenuItem key={i}>
-            <Link
-              to={item.to}
-              style={{ color: "#fff", textDecoration: "none" }}
-            >
-              {item.label}
-            </Link>
-            {item.sub && (
-              <SubMenu>
-                {item.sub.map((sub, j) => (
-                  <SubMenuItem
-                    key={j}
-                    style={
-                      sub.disabled
-                        ? { opacity: 0.5, pointerEvents: "none" }
-                        : {}
-                    }
-                  >
-                    <Link
-                      to={sub.to}
-                      style={{ color: "#fff", textDecoration: "none" }}
+    <>
+      <TopBar>
+        <TopBarLink as={Link} to="/login">
+          로그인
+        </TopBarLink>
+        <TopBarLink as={Link} to="/signup">
+          회원가입
+        </TopBarLink>
+      </TopBar>
+
+      <Nav>
+        <Logo>
+          <Link to="/" style={{ color: "#fff", textDecoration: "none" }}>
+            KAU-NCCOSS
+          </Link>
+        </Logo>
+
+        <Menu>
+          {items.map((item, i) => (
+            <MenuItem key={i}>
+              <Link
+                to={item.to}
+                style={{ color: "#fff", textDecoration: "none" }}
+              >
+                {item.label}
+              </Link>
+              {item.sub && (
+                <SubMenu>
+                  {item.sub.map((sub, j) => (
+                    <SubMenuItem
+                      key={j}
+                      style={
+                        sub.disabled
+                          ? { opacity: 0.5, pointerEvents: "none" }
+                          : {}
+                      }
                     >
-                      {sub.label}
-                    </Link>
-                  </SubMenuItem>
-                ))}
-              </SubMenu>
-            )}
-          </MenuItem>
-        ))}
-      </Menu>
-    </Nav>
+                      <Link
+                        to={sub.to}
+                        style={{ color: "#fff", textDecoration: "none" }}
+                      >
+                        {sub.label}
+                      </Link>
+                    </SubMenuItem>
+                  ))}
+                </SubMenu>
+              )}
+            </MenuItem>
+          ))}
+        </Menu>
+      </Nav>
+    </>
   );
 }

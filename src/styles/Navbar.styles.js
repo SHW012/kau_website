@@ -1,9 +1,26 @@
 // src/styles/Navbar.styles.js
 import styled from "styled-components";
 
+export const TopBar = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0.5rem 2rem;
+  background: rgba(0, 0, 0, 0.8);
+  gap: 1.5rem;
+`;
+
+export const TopBarLink = styled.a`
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: bold;
+`;
+
 export const Nav = styled.nav`
   position: absolute;
-  top: 0;
+  top: 2.5rem;
   left: 0;
   right: 0;
   display: flex;
@@ -16,19 +33,23 @@ export const Nav = styled.nav`
 
 export const Logo = styled.div`
   color: #fff;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: bold;
 `;
 
 export const Menu = styled.ul`
   display: flex;
-  gap: 2rem;
+  gap: 3rem;
   list-style: none;
+  margin: 0;
+  padding: 0;
 `;
 
 export const MenuItem = styled.li`
   position: relative;
   color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
 
   &:hover > ul {
@@ -46,22 +67,19 @@ export const SubMenu = styled.ul`
   padding: 0.5rem 0;
   list-style: none;
   border-radius: 4px;
+  margin: 0;
 
   visibility: hidden;
   opacity: 0;
   transform: translateY(-10px);
   transition: opacity 0.3s ease, transform 0.3s ease;
-
-  /* 유지: 마우스가 서브메뉴에 올라도 사라지지 않도록 */
-  &:hover {
-    visibility: visible;
-    opacity: 1;
-    transform: translateY(0);
-  }
 `;
 
 export const SubMenuItem = styled.li`
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 1.5rem;
+  white-space: nowrap;
+  font-weight: bold;
+
   &:hover {
     background: rgba(255, 255, 255, 0.1);
   }
