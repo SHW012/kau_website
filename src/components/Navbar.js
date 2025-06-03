@@ -1,4 +1,3 @@
-// src/components/Navbar.js
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -11,9 +10,10 @@ import {
   SubMenu,
   SubMenuItem,
 } from "../styles/Navbar.styles";
-import kauLogo from "../assets/kau_nccoss.png";
+import kauLogo from "../assets/kau_logo1.jpg";
 
 const items = [
+  // ... (items 배열은 이전과 동일) ...
   {
     label: "사업단 소개",
     to: "/about/intro",
@@ -56,7 +56,7 @@ const items = [
 
 export default function Navbar() {
   const location = useLocation();
-  const shouldShowLogo = location.pathname === "/"; // 로고는 홈에서만 보이도록 설정
+  // const shouldShowLogo = location.pathname === "/"; // 로고는 모든 페이지에서 보이도록 가정
 
   return (
     <>
@@ -70,27 +70,33 @@ export default function Navbar() {
       </TopBar>
 
       <Nav>
-        <Logo>
-          {shouldShowLogo && (
-            <Link to="/">
-              <img
-                src={kauLogo}
-                alt="KAU NCCOSS"
-                style={{ height: "40px", objectFit: "contain" }}
-              />
-            </Link>
-          )}
-        </Logo>
+        <Link to="/" style={{ textDecoration: "none" }}>
+          <Logo>
+            <img
+              src={kauLogo}
+              alt="KAU NCCOSS 로고"
+              style={{
+                height: "40px",
+                objectFit: "contain",
+                marginRight: "10px",
+              }}
+            />
+            {/* Navbar.styles.js에서 Logo span 색상을 #333으로 지정했으므로 아래 인라인 color 제거 가능 */}
+            <span
+              style={{
+                fontSize: "16px",
+                fontWeight: "bold" /* color: "#333" */,
+              }}
+            >
+              차세대통신 혁신융합대학사업단
+            </span>
+          </Logo>
+        </Link>
 
         <Menu>
           {items.map((item, i) => (
             <MenuItem key={i}>
-              <Link
-                to={item.to}
-                style={{ color: "#fff", textDecoration: "none" }}
-              >
-                {item.label}
-              </Link>
+              <Link to={item.to}>{item.label}</Link>
               {item.sub && (
                 <SubMenu>
                   {item.sub.map((sub, j) => (
@@ -102,12 +108,7 @@ export default function Navbar() {
                           : {}
                       }
                     >
-                      <Link
-                        to={sub.to}
-                        style={{ color: "#fff", textDecoration: "none" }}
-                      >
-                        {sub.label}
-                      </Link>
+                      <Link to={sub.to}>{sub.label}</Link>
                     </SubMenuItem>
                   ))}
                 </SubMenu>
