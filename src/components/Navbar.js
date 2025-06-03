@@ -1,4 +1,5 @@
-import React from "react";
+// ✅ src/components/Navbar.jsx
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   TopBar,
@@ -9,6 +10,8 @@ import {
   MenuItem,
   SubMenu,
   SubMenuItem,
+  Hamburger,
+  MobileMenuWrapper,
 } from "../styles/Navbar.styles";
 import kauLogo from "../assets/kau_logo1.jpg";
 
@@ -54,6 +57,8 @@ const items = [
 ];
 
 export default function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <>
       <TopBar>
@@ -68,28 +73,14 @@ export default function Navbar() {
       <Nav>
         <Link to="/" style={{ textDecoration: "none" }}>
           <Logo>
-            <img
-              src={kauLogo}
-              alt="KAU NCCOSS 로고"
-              style={{
-                height: "40px",
-                objectFit: "contain",
-                marginRight: "10px",
-              }}
-            />
-            {/* Navbar.styles.js에서 Logo span 색상을 #333으로 지정했으므로 아래 인라인 color 제거 가능 */}
-            <span
-              style={{
-                fontSize: "16px",
-                fontWeight: "bold" /* color: "#333" */,
-              }}
-            >
-              차세대통신 혁신융합대학사업단
-            </span>
+            <img src={kauLogo} alt="KAU 로고" />
+            <span>차세대통신 혁신융합대학사업단</span>
           </Logo>
         </Link>
 
-        <Menu>
+        <Hamburger onClick={() => setIsOpen(!isOpen)}>☰</Hamburger>
+
+        <Menu className="desktop-menu">
           {items.map((item, i) => (
             <MenuItem key={i}>
               <Link to={item.to}>{item.label}</Link>
@@ -113,6 +104,34 @@ export default function Navbar() {
           ))}
         </Menu>
       </Nav>
+
+      {isOpen && (
+        <MobileMenuWrapper>
+          <Menu className="mobile-menu">
+            {items.map((item, i) => (
+              <MenuItem key={i}>
+                <Link to={item.to}>{item.label}</Link>
+                {item.sub && (
+                  <SubMenu>
+                    {item.sub.map((sub, j) => (
+                      <SubMenuItem
+                        key={j}
+                        style={
+                          sub.disabled
+                            ? { opacity: 0.5, pointerEvents: "none" }
+                            : {}
+                        }
+                      >
+                        <Link to={sub.to}>{sub.label}</Link>
+                      </SubMenuItem>
+                    ))}
+                  </SubMenu>
+                )}
+              </MenuItem>
+            ))}
+          </Menu>
+        </MobileMenuWrapper>
+      )}
     </>
   );
 }

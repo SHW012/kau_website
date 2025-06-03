@@ -19,6 +19,7 @@ export default createGlobalStyle`
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     background-color: #fff;
+    font-size: 16px;
   }
 
   a {
@@ -35,5 +36,28 @@ export default createGlobalStyle`
   img {
     max-width: 100%;
     display: block;
+  }
+
+  /* ✅ 반응형 미디어 쿼리 추가 */
+  @media (max-width: 1024px) {
+    body {
+      font-size: 15px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    body {
+      font-size: 14px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    body {
+      font-size: 13px;
+    }
+
+    img {
+      height: auto;
+    }
   }
 `;

@@ -1,3 +1,4 @@
+// src/styles/Navbar.styles.js
 import styled from "styled-components";
 
 export const TopBar = styled.div`
@@ -8,7 +9,6 @@ export const TopBar = styled.div`
   padding: 0.5rem 2rem;
   background: rgba(0, 0, 0, 0.8);
   gap: 1.5rem;
-  margin-bottom: 0; /* ✅ 여백 제거 */
 `;
 
 export const TopBarLink = styled.a`
@@ -27,7 +27,13 @@ export const Nav = styled.nav`
   border-bottom: 1px solid #e0e0e0;
   position: relative;
   z-index: 1000;
-  margin-top: 0; /* ✅ 여백 제거 */
+  flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
 `;
 
 export const Logo = styled.div`
@@ -46,6 +52,43 @@ export const Logo = styled.div`
     color: #333;
     white-space: nowrap;
   }
+
+  @media (max-width: 768px) {
+    span {
+      font-size: 14px;
+    }
+  }
+`;
+
+export const Hamburger = styled.div`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+    font-size: 2rem;
+    cursor: pointer;
+    position: absolute;
+    top: 1rem;
+    right: 2rem;
+    z-index: 1500;
+  }
+`;
+
+export const MobileMenuWrapper = styled.div`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    padding: 1rem 2rem;
+    z-index: 1200;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
 `;
 
 export const Menu = styled.ul`
@@ -54,6 +97,12 @@ export const Menu = styled.ul`
   list-style: none;
   margin: 0;
   padding: 0;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
 `;
 
 export const MenuItem = styled.li`
@@ -96,6 +145,16 @@ export const SubMenu = styled.ul`
   transform: translateY(-10px);
   transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
   z-index: 1010;
+
+  @media (max-width: 768px) {
+    position: static;
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    background: transparent;
+    box-shadow: none;
+    padding-left: 1rem;
+  }
 `;
 
 export const SubMenuItem = styled.li`
@@ -108,9 +167,18 @@ export const SubMenuItem = styled.li`
     color: #fff;
     text-decoration: none;
     font-weight: normal;
+
+    @media (max-width: 768px) {
+      color: #333;
+      padding: 0.5rem 0;
+    }
   }
 
   &:hover {
     background: rgba(255, 255, 255, 0.1);
+
+    @media (max-width: 768px) {
+      background: none;
+    }
   }
 `;
