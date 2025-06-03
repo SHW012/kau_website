@@ -8,6 +8,7 @@ export const TopBar = styled.div`
   padding: 0.5rem 2rem;
   background: rgba(0, 0, 0, 0.8);
   gap: 1.5rem;
+  margin-bottom: 0; /* ✅ 여백 제거 */
 `;
 
 export const TopBarLink = styled.a`
@@ -26,6 +27,7 @@ export const Nav = styled.nav`
   border-bottom: 1px solid #e0e0e0;
   position: relative;
   z-index: 1000;
+  margin-top: 0; /* ✅ 여백 제거 */
 `;
 
 export const Logo = styled.div`

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   TopBar,
   TopBarLink,
@@ -13,7 +13,6 @@ import {
 import kauLogo from "../assets/kau_logo1.jpg";
 
 const items = [
-  // ... (items 배열은 이전과 동일) ...
   {
     label: "사업단 소개",
     to: "/about/intro",
@@ -55,9 +54,6 @@ const items = [
 ];
 
 export default function Navbar() {
-  const location = useLocation();
-  // const shouldShowLogo = location.pathname === "/"; // 로고는 모든 페이지에서 보이도록 가정
-
   return (
     <>
       <TopBar>

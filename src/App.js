@@ -30,7 +30,7 @@ function AppContent() {
     <>
       <GlobalStyle />
       <Navbar />
-      <div style={{ paddingTop: "80px" }}>
+      <div>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
