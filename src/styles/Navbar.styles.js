@@ -1,6 +1,6 @@
-// src/styles/Navbar.styles.js
 import styled from "styled-components";
 
+// 상단 로그인/회원가입 바
 export const TopBar = styled.div`
   width: 100%;
   display: flex;
@@ -18,6 +18,7 @@ export const TopBarLink = styled.a`
   font-weight: bold;
 `;
 
+// 네비게이션 전체 컨테이너
 export const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
@@ -28,14 +29,9 @@ export const Nav = styled.nav`
   position: relative;
   z-index: 1000;
   flex-wrap: wrap;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
 `;
 
+// 로고 영역
 export const Logo = styled.div`
   display: flex;
   align-items: center;
@@ -52,45 +48,9 @@ export const Logo = styled.div`
     color: #333;
     white-space: nowrap;
   }
-
-  @media (max-width: 768px) {
-    span {
-      font-size: 14px;
-    }
-  }
 `;
 
-export const Hamburger = styled.div`
-  display: none;
-
-  @media (max-width: 768px) {
-    display: block;
-    font-size: 2rem;
-    cursor: pointer;
-    position: absolute;
-    top: 1rem;
-    right: 2rem;
-    z-index: 1500;
-  }
-`;
-
-export const MobileMenuWrapper = styled.div`
-  display: none;
-
-  @media (max-width: 768px) {
-    display: flex;
-    flex-direction: column;
-    background: white;
-    position: absolute;
-    top: 60px;
-    left: 0;
-    width: 100%;
-    padding: 1rem 2rem;
-    z-index: 1200;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-`;
-
+// 데스크탑 전용 메뉴 (가로 메뉴)
 export const Menu = styled.ul`
   display: flex;
   gap: 3rem;
@@ -99,12 +59,11 @@ export const Menu = styled.ul`
   padding: 0;
 
   @media (max-width: 768px) {
-    flex-direction: column;
-    gap: 1rem;
-    width: 100%;
+    display: none;
   }
 `;
 
+// 메뉴 항목
 export const MenuItem = styled.li`
   position: relative;
   font-size: 1rem;
@@ -129,6 +88,7 @@ export const MenuItem = styled.li`
   }
 `;
 
+// 서브 메뉴
 export const SubMenu = styled.ul`
   position: absolute;
   top: 100%;
@@ -180,5 +140,35 @@ export const SubMenuItem = styled.li`
     @media (max-width: 768px) {
       background: none;
     }
+  }
+`;
+
+// 햄버거 버튼 (모바일 전용)
+export const Hamburger = styled.div`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+    font-size: 2rem;
+    cursor: pointer;
+    position: absolute;
+    top: 1rem;
+    right: 2rem;
+    z-index: 1500;
+  }
+`;
+
+// 모바일 메뉴 컨테이너 (햄버거 클릭 시 열림)
+export const MobileMenuWrapper = styled.div`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    width: 100%;
+    padding: 1rem 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1200;
   }
 `;

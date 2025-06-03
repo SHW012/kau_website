@@ -1,4 +1,3 @@
-// ✅ src/components/Navbar.jsx
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -80,7 +79,8 @@ export default function Navbar() {
 
         <Hamburger onClick={() => setIsOpen(!isOpen)}>☰</Hamburger>
 
-        <Menu className="desktop-menu">
+        {/* PC 전용 메뉴 */}
+        <Menu>
           {items.map((item, i) => (
             <MenuItem key={i}>
               <Link to={item.to}>{item.label}</Link>
@@ -105,31 +105,34 @@ export default function Navbar() {
         </Menu>
       </Nav>
 
+      {/* 모바일 전용 메뉴 */}
       {isOpen && (
         <MobileMenuWrapper>
-          <Menu className="mobile-menu">
-            {items.map((item, i) => (
-              <MenuItem key={i}>
-                <Link to={item.to}>{item.label}</Link>
-                {item.sub && (
-                  <SubMenu>
-                    {item.sub.map((sub, j) => (
-                      <SubMenuItem
-                        key={j}
-                        style={
-                          sub.disabled
-                            ? { opacity: 0.5, pointerEvents: "none" }
-                            : {}
-                        }
-                      >
-                        <Link to={sub.to}>{sub.label}</Link>
-                      </SubMenuItem>
-                    ))}
-                  </SubMenu>
-                )}
-              </MenuItem>
-            ))}
-          </Menu>
+          {items.map((item, i) => (
+            <MenuItem key={i}>
+              <Link to={item.to} onClick={() => setIsOpen(false)}>
+                {item.label}
+              </Link>
+              {item.sub && (
+                <SubMenu>
+                  {item.sub.map((sub, j) => (
+                    <SubMenuItem
+                      key={j}
+                      style={
+                        sub.disabled
+                          ? { opacity: 0.5, pointerEvents: "none" }
+                          : {}
+                      }
+                    >
+                      <Link to={sub.to} onClick={() => setIsOpen(false)}>
+                        {sub.label}
+                      </Link>
+                    </SubMenuItem>
+                  ))}
+                </SubMenu>
+              )}
+            </MenuItem>
+          ))}
         </MobileMenuWrapper>
       )}
     </>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import GlobalStyle from "./styles/GlobalStyle";
 import Navbar from "./components/Navbar";
@@ -26,10 +26,18 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 
 function AppContent() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <>
       <GlobalStyle />
-      <Navbar />
+      <Navbar isMobile={isMobile} /> {/* 모바일 여부를 prop으로 전달 (선택) */}
       <div>
         <Routes>
           <Route path="/login" element={<Login />} />
