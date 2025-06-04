@@ -19,6 +19,6 @@ export const HeroImage = styled.img`
   @media (max-width: 768px) {
     width: 100%;
     height: auto;
-    object-fit: contain; // 모바일에서는 이미지 비율 유지하며 축소
+    object-fit: contain; /* 모바일에서는 이미지 비율 유지하며 축소 */
   }
 `;
