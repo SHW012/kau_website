@@ -164,6 +164,10 @@ export const MobileMenuWrapper = styled.div`
 
   @media (max-width: 768px) {
     display: flex;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
     flex-direction: column;
     background: white;
     width: 100%;
