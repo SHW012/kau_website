@@ -1,5 +1,6 @@
 // src/pages/Signup.jsx
 import React, { useState } from "react";
+import { signup } from "../api";
 import {
   SignupWrapper,
   SignupCard,
@@ -17,9 +18,15 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ email, password });
+    try {
+      await signup({ email, password });
+      alert("회원가입 성공");
+    } catch (err) {
+      console.error(err);
+      alert("회원가입 실패");
+    }
   };
 
   return (

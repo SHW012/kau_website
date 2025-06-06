@@ -1,5 +1,6 @@
 // src/pages/Login.jsx
 import React, { useState } from "react";
+import { login } from "../api";
 import {
   LoginWrapper,
   LoginCard,
@@ -23,9 +24,15 @@ export default function Login() {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ id, pw });
+    try {
+      await login({ email: id, password: pw });
+      alert("로그인 성공");
+    } catch (err) {
+      console.error(err);
+      alert("로그인 실패");
+    }
   };
 
   return (
