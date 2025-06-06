@@ -1,5 +1,6 @@
 // src/pages/Signup.jsx
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   SignupWrapper,
   SignupCard,
@@ -12,17 +13,38 @@ import {
   TogglePasswordBtn,
 } from "../styles/Signup.styles";
 
+import { signup } from "../api/api";
+
 export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // API 제거됨: 입력값만 콘솔에 출력
-    console.log("회원가입 이메일:", email);
-    console.log("회원가입 비밀번호:", password);
-    alert("회원가입 버튼 클릭됨 (API 미연동)");
+
+    try {
+      // 1) 백엔드 회원가입 API 호출
+      //    signupData: { email, password }
+      const response = await signup({
+        email: email.trim(),
+        password: password,
+      });
+
+      // 2) 회원가입이 성공적으로 되었다면, 보통 response.data가 비어있거나
+      //    { success: true } 등의 메시지가 옵니다.
+      //    필요하다면 response.data를 확인하여 추가 로직을 작성하세요.
+      console.log("회원가입 성공:", response.data);
+
+      alert("회원가입이 완료되었습니다. 이제 로그인 페이지로 이동합니다.");
+
+      // 3) 회원가입 완료 후, 로그인 페이지(“/login”)로 리다이렉트
+      navigate("/login");
+    } catch (err) {
+      console.error("회원가입 실패:", err);
+      alert("회원가입에 실패했습니다. 다시 시도해주세요.");
+    }
   };
 
   return (
@@ -40,6 +62,7 @@ export default function Signup() {
               required
             />
           </InputGroup>
+
           <InputGroup>
             <Icon>🔒</Icon>
             <Input
@@ -53,9 +76,10 @@ export default function Signup() {
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
             >
-              {showPassword ? "✅" : "❌"}
+              {showPassword ? "✅" : "🔒"}
             </TogglePasswordBtn>
           </InputGroup>
+
           <ButtonPrimary type="submit">회원가입</ButtonPrimary>
         </Form>
       </SignupCard>
