@@ -4,6 +4,7 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
   width: 100%;
   max-width: 100%;
+  height: 100vh; /* 화면 전체 높이 */
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -12,13 +13,7 @@ export const Wrapper = styled.div`
 // ✅ 반응형 이미지 스타일
 export const HeroImage = styled.img`
   width: 100%;
-  height: auto;
-  object-fit: cover; /* 또는 contain → 아래 참고 */
+  height: 100%;
+  object-fit: cover; /* 이미지가 영역을 꽉 채우도록 */
   display: block;
-
-  @media (max-width: 768px) {
-    width: 100%;
-    height: auto;
-    object-fit: contain; /* 모바일에서는 이미지 비율 유지하며 축소 */
-  }
 `;
