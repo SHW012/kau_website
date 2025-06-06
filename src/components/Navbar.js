@@ -1,5 +1,7 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+// src/components/Navbar.jsx
+
+import React, { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   TopBar,
   TopBarLink,
@@ -13,7 +15,9 @@ import {
   MobileMenuWrapper,
 } from "../styles/Navbar.styles";
 import kauLogo from "../assets/kau_logo1.jpg";
+import { setAuthToken } from "../api/api";
 
+// 네비게이션 메뉴 항목 데이터
 const items = [
   {
     label: "사업단 소개",
@@ -57,18 +61,73 @@ const items = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [userEmail, setUserEmail] = useState(null);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // 경로(location)가 바뀔 때마다 localStorage를 다시 확인
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("userEmail");
+    // 콘솔로 확인 (없다면 null이 찍힘)
+    console.log("[디버깅] Navbar - current location:", location.pathname);
+    console.log("[디버깅] Navbar - localStorage userEmail:", storedEmail);
+    setUserEmail(storedEmail);
+  }, [location]);
+
+  const handleLogout = () => {
+    // 1) localStorage에서 userEmail 삭제
+    localStorage.removeItem("userEmail");
+
+    // 2) 쿠키(accessToken) 삭제
+    document.cookie = "accessToken=; path=/; max-age=0";
+
+    // 3) axios 인스턴스에 설정된 Authorization 헤더 제거
+    setAuthToken(null);
+
+    // 4) 상태 초기화
+    setUserEmail(null);
+
+    // 5) 홈 페이지로 이동
+    navigate("/");
+  };
 
   return (
     <>
+      {/* 상단 바: 로그인/회원가입 또는 userEmail/로그아웃 */}
       <TopBar>
-        <TopBarLink as={Link} to="/login">
-          로그인
-        </TopBarLink>
-        <TopBarLink as={Link} to="/signup">
-          회원가입
-        </TopBarLink>
+        {userEmail ? (
+          <>
+            <span style={{ color: "#fff", marginRight: "1rem" }}>
+              {userEmail}
+            </span>
+            <TopBarLink
+              as="button"
+              onClick={handleLogout}
+              style={{
+                background: "none",
+                border: "none",
+                color: "#fff",
+                cursor: "pointer",
+                fontSize: "0.9rem",
+                fontWeight: "bold",
+              }}
+            >
+              로그아웃
+            </TopBarLink>
+          </>
+        ) : (
+          <>
+            <TopBarLink as={Link} to="/login">
+              로그인
+            </TopBarLink>
+            <TopBarLink as={Link} to="/signup">
+              회원가입
+            </TopBarLink>
+          </>
+        )}
       </TopBar>
 
+      {/* 메인 네비게이션 바 */}
       <Nav>
         <Link to="/" style={{ textDecoration: "none" }}>
           <Logo>
@@ -77,6 +136,7 @@ export default function Navbar() {
           </Logo>
         </Link>
 
+        {/* 모바일 햄버거 아이콘 */}
         <Hamburger onClick={() => setIsOpen(!isOpen)}>☰</Hamburger>
 
         {/* PC 전용 메뉴 */}
@@ -104,7 +164,7 @@ export default function Navbar() {
           ))}
         </Menu>
 
-        {/* 모바일 전용 메뉴 */}
+        {/* 모바일 전용 메뉴 (햄버거 클릭 시) */}
         {isOpen && (
           <MobileMenuWrapper>
             {items.map((item, i) => (

@@ -1,6 +1,9 @@
-import styled from "styled-components";
+// src/styles/Navbar.styles.js
 
-// 상단 로그인/회원가입 바
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+
+// 상단 로그인/회원가입 또는 유저 정보/로그아웃 바
 export const TopBar = styled.div`
   width: 100%;
   display: flex;
