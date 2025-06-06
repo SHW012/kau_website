@@ -1,6 +1,5 @@
 // src/pages/Login.jsx
 import React, { useState } from "react";
-import { login } from "../api/api";
 import {
   LoginWrapper,
   LoginCard,
@@ -24,15 +23,12 @@ export default function Login() {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      await login({ email: id, password: pw });
-      alert("로그인 성공");
-    } catch (err) {
-      console.error(err);
-      alert("로그인 실패");
-    }
+    // 실제 로그인 로직 제거됨
+    console.log("ID:", id);
+    console.log("Password:", pw);
+    alert("로그인 버튼 클릭됨 (API 연동 없음)");
   };
 
   return (

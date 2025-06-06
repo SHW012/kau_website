@@ -1,33 +1,36 @@
 // src/pages/community/QnA.jsx
-import React, { useEffect, useState } from "react";
-import { getQnaList, postQna } from "../../api/api";
+import React, { useState, useEffect } from "react";
 
 export default function QnA() {
   const [items, setItems] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  const loadItems = () => {
-    getQnaList()
-      .then((res) => setItems(res.content || []))
-      .catch((err) => console.error(err));
-  };
-
   useEffect(() => {
-    loadItems();
+    // 초기 더미 QnA 데이터
+    setItems([
+      {
+        id: 1,
+        title: "Q. 질문 예시 1",
+        content: "내용입니다.",
+        answer: "A. 답변입니다.",
+      },
+      { id: 2, title: "Q. 질문 예시 2", content: "다른 내용입니다." },
+    ]);
   }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      await postQna({ title, content });
-      setTitle("");
-      setContent("");
-      loadItems();
-    } catch (err) {
-      console.error(err);
-      alert("문의 등록 실패");
-    }
+    const newQna = {
+      id: Date.now(),
+      title,
+      content,
+      answer: null,
+    };
+    setItems([newQna, ...items]);
+    setTitle("");
+    setContent("");
+    alert("QnA 등록됨 (API 미연동)");
   };
 
   return (

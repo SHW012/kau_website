@@ -39,5 +39,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://13.125.148.30:8080"
+  "proxy": "http://13.125.148.30:8080",
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.20.2"
+  }
 }

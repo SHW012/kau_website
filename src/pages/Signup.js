@@ -1,6 +1,5 @@
 // src/pages/Signup.jsx
 import React, { useState } from "react";
-import { signup } from "../api/api";
 import {
   SignupWrapper,
   SignupCard,
@@ -18,15 +17,12 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      await signup({ email, password });
-      alert("회원가입 성공");
-    } catch (err) {
-      console.error(err);
-      alert("회원가입 실패");
-    }
+    // API 제거됨: 입력값만 콘솔에 출력
+    console.log("회원가입 이메일:", email);
+    console.log("회원가입 비밀번호:", password);
+    alert("회원가입 버튼 클릭됨 (API 미연동)");
   };
 
   return (

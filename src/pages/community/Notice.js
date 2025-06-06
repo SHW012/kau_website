@@ -1,12 +1,6 @@
 // src/pages/community/Notice.jsx
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  getNoticeList,
-  createNotice,
-  updateNotice,
-  deleteNotice,
-} from "../../api/api";
 
 export default function Notice() {
   const [items, setItems] = useState([]);
@@ -16,38 +10,31 @@ export default function Notice() {
   const [editTitle, setEditTitle] = useState("");
   const [editContent, setEditContent] = useState("");
 
-  const loadItems = () => {
-    getNoticeList()
-      .then((res) => setItems(res.content || []))
-      .catch((err) => console.error(err));
-  };
-
+  // 더미 데이터 로드 (처음 한 번만)
   useEffect(() => {
-    loadItems();
+    setItems([
+      { id: 1, title: "공지사항 예시 1", content: "내용입니다." },
+      { id: 2, title: "공지사항 예시 2", content: "다른 내용입니다." },
+    ]);
   }, []);
 
-  const handleCreate = async (e) => {
+  const handleCreate = (e) => {
     e.preventDefault();
-    try {
-      await createNotice({ title, content });
-      setTitle("");
-      setContent("");
-      loadItems();
-    } catch (err) {
-      console.error(err);
-      alert("공지 등록 실패");
-    }
+    const newNotice = {
+      id: Date.now(),
+      title,
+      content,
+    };
+    setItems([newNotice, ...items]);
+    setTitle("");
+    setContent("");
+    alert("공지 등록됨 (API 미연동)");
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = (id) => {
     if (!window.confirm("삭제하시겠습니까?")) return;
-    try {
-      await deleteNotice(id);
-      loadItems();
-    } catch (err) {
-      console.error(err);
-      alert("삭제 실패");
-    }
+    setItems(items.filter((item) => item.id !== id));
+    alert("삭제됨 (API 미연동)");
   };
 
   const startEdit = (item) => {
@@ -56,18 +43,18 @@ export default function Notice() {
     setEditContent(item.content);
   };
 
-  const handleUpdate = async (e) => {
+  const handleUpdate = (e) => {
     e.preventDefault();
-    try {
-      await updateNotice(editingId, { title: editTitle, content: editContent });
-      setEditingId(null);
-      setEditTitle("");
-      setEditContent("");
-      loadItems();
-    } catch (err) {
-      console.error(err);
-      alert("수정 실패");
-    }
+    const updated = items.map((item) =>
+      item.id === editingId
+        ? { ...item, title: editTitle, content: editContent }
+        : item
+    );
+    setItems(updated);
+    setEditingId(null);
+    setEditTitle("");
+    setEditContent("");
+    alert("수정됨 (API 미연동)");
   };
 
   return (
