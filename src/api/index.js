@@ -1,6 +1,10 @@
 const API_BASE_URL = process.env.REACT_APP_API_URL || "";
+const DEBUG = process.env.REACT_APP_DEBUG === "true";
 
 async function apiRequest(path, options = {}) {
+  if (DEBUG) {
+    console.debug("API Request", path, options);
+  }
   const response = await fetch(`${API_BASE_URL}${path}`, {
     headers: {
       'Content-Type': 'application/json',
@@ -9,8 +13,14 @@ async function apiRequest(path, options = {}) {
     credentials: 'include',
     ...options,
   });
+  if (DEBUG) {
+    console.debug("API Response Status", response.status);
+  }
   if (!response.ok) {
     const message = await response.text();
+    if (DEBUG) {
+      console.error("API Error", message || response.statusText);
+    }
     throw new Error(message || response.statusText);
   }
   if (response.status === 204) return null;
