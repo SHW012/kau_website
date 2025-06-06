@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { getNotice } from "../../api";
+import { getNotice } from "../../api/api";
 
 export default function NoticeDetail() {
   const { id } = useParams();

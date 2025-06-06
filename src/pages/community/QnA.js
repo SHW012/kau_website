@@ -1,6 +1,6 @@
 // src/pages/community/QnA.jsx
 import React, { useEffect, useState } from "react";
-import { getQnaList, postQna } from "../../api";
+import { getQnaList, postQna } from "../../api/api";
 
 export default function QnA() {
   const [items, setItems] = useState([]);

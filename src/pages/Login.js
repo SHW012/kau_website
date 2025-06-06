@@ -1,6 +1,6 @@
 // src/pages/Login.jsx
 import React, { useState } from "react";
-import { login } from "../api";
+import { login } from "../api/api";
 import {
   LoginWrapper,
   LoginCard,

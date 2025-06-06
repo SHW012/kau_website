@@ -6,7 +6,7 @@ import {
   createNotice,
   updateNotice,
   deleteNotice,
-} from "../../api";
+} from "../../api/api";
 
 export default function Notice() {
   const [items, setItems] = useState([]);

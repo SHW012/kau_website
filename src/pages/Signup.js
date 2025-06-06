@@ -1,6 +1,6 @@
 // src/pages/Signup.jsx
 import React, { useState } from "react";
-import { signup } from "../api";
+import { signup } from "../api/api";
 import {
   SignupWrapper,
   SignupCard,
