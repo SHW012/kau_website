@@ -1,4 +1,3 @@
-// src/pages/Login.jsx
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
@@ -10,19 +9,18 @@ import {
   Icon,
   Input,
   ButtonPrimary,
-  ButtonGroup,
-  ButtonSecondary,
   Divider,
   DividerText,
   SignupButton,
-  CheckboxWrapper,
-  Checkbox,
 } from "../styles/Login.styles";
 
 import { login, setAuthToken } from "../api/api";
 
+// React Icons 라이브러리에서 필요한 아이콘을 가져옵니다.
+import { FaEnvelope, FaLock } from "react-icons/fa";
+
 export default function Login() {
-  const [email, setEmail] = useState(""); // ID 대신 email 로 변경
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
@@ -36,23 +34,19 @@ export default function Login() {
         password: password,
       });
 
-      // 2) 백엔드에서 반환해주는 토큰 키명을 확인하세요.
-      //    예를 들어 response.data.accessToken 또는 response.data.token 등.
-      //    백엔드 명세에 맞게 아래 코드의 “accessToken”을 수정해 주세요.
+      // 2) 반환된 토큰 확인
       const { accessToken } = response.data;
       if (!accessToken) {
         throw new Error("로그인 응답에서 토큰을 찾을 수 없습니다.");
       }
 
-      // 3) JWT 토큰을 쿠키에 저장 (브라우저 JS에서 간단히 document.cookie로 설정)
-      //    만약 백엔드가 HttpOnly 쿠키로 내려주도록 이미 설정되어 있으면,
-      //    클라이언트에서 document.cookie 로 설정할 필요가 없습니다.
+      // 3) JWT 토큰을 쿠키에 저장
       document.cookie = `accessToken=${accessToken}; path=/;`;
 
-      // 4) axios 인스턴스의 Authorization 헤더에도 토큰을 붙여 줍니다.
+      // 4) axios 기본 헤더에 Authorization 설정
       setAuthToken(accessToken);
 
-      // 5) 로그인 성공 후, 랜딩 페이지(“/”)로 이동
+      // 5) 로그인 성공 시 홈(랜딩) 페이지로 이동
       navigate("/");
     } catch (err) {
       console.error("로그인 실패:", err);
@@ -64,9 +58,13 @@ export default function Login() {
     <LoginWrapper>
       <LoginCard>
         <Title>로그인</Title>
+
         <Form onSubmit={handleSubmit}>
+          {/* 이메일 입력 필드 + 아이콘 */}
           <InputGroup>
-            <Icon>✉️</Icon>
+            <Icon>
+              <FaEnvelope size={18} color="#888" />
+            </Icon>
             <Input
               type="email"
               placeholder="이메일"
@@ -76,8 +74,11 @@ export default function Login() {
             />
           </InputGroup>
 
+          {/* 비밀번호 입력 필드 + 아이콘 */}
           <InputGroup>
-            <Icon>🔒</Icon>
+            <Icon>
+              <FaLock size={18} color="#888" />
+            </Icon>
             <Input
               type="password"
               placeholder="비밀번호"
@@ -87,25 +88,18 @@ export default function Login() {
             />
           </InputGroup>
 
+          {/* 로그인 버튼 */}
           <ButtonPrimary type="submit">로그인</ButtonPrimary>
 
-          <ButtonGroup>
-            <ButtonSecondary type="button">아이디 찾기</ButtonSecondary>
-            <ButtonSecondary type="button">비밀번호 찾기</ButtonSecondary>
-          </ButtonGroup>
-
+          {/* OR 구분선 */}
           <Divider>
             <DividerText>OR</DividerText>
           </Divider>
 
+          {/* 회원가입 버튼 */}
           <SignupButton as={Link} to="/signup">
             회원가입
           </SignupButton>
-
-          <CheckboxWrapper>
-            <Checkbox />
-            아이디 저장
-          </CheckboxWrapper>
         </Form>
       </LoginCard>
     </LoginWrapper>

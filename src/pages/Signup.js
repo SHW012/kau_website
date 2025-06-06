@@ -15,6 +15,9 @@ import {
 
 import { signup } from "../api/api";
 
+// React Icons (FontAwesome 계열)에서 필요한 아이콘만 import
+import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
+
 export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,20 +29,15 @@ export default function Signup() {
 
     try {
       // 1) 백엔드 회원가입 API 호출
-      //    signupData: { email, password }
       const response = await signup({
         email: email.trim(),
         password: password,
       });
 
-      // 2) 회원가입이 성공적으로 되었다면, 보통 response.data가 비어있거나
-      //    { success: true } 등의 메시지가 옵니다.
-      //    필요하다면 response.data를 확인하여 추가 로직을 작성하세요.
       console.log("회원가입 성공:", response.data);
-
       alert("회원가입이 완료되었습니다. 이제 로그인 페이지로 이동합니다.");
 
-      // 3) 회원가입 완료 후, 로그인 페이지(“/login”)로 리다이렉트
+      // 3) 회원가입 완료 후, 로그인 페이지로 리다이렉트
       navigate("/login");
     } catch (err) {
       console.error("회원가입 실패:", err);
@@ -51,9 +49,13 @@ export default function Signup() {
     <SignupWrapper>
       <SignupCard>
         <Title>회원가입</Title>
+
         <Form onSubmit={handleSubmit}>
+          {/* 이메일 입력 */}
           <InputGroup>
-            <Icon>✉️</Icon>
+            <Icon>
+              <FaEnvelope size={18} color="#888" />
+            </Icon>
             <Input
               type="email"
               placeholder="이메일"
@@ -63,8 +65,11 @@ export default function Signup() {
             />
           </InputGroup>
 
+          {/* 비밀번호 입력 */}
           <InputGroup>
-            <Icon>🔒</Icon>
+            <Icon>
+              <FaLock size={18} color="#888" />
+            </Icon>
             <Input
               type={showPassword ? "text" : "password"}
               placeholder="비밀번호"
@@ -76,10 +81,15 @@ export default function Signup() {
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
             >
-              {showPassword ? "✅" : "🔒"}
+              {showPassword ? (
+                <FaEyeSlash size={16} color="#666" />
+              ) : (
+                <FaEye size={16} color="#666" />
+              )}
             </TogglePasswordBtn>
           </InputGroup>
 
+          {/* 회원가입 버튼 */}
           <ButtonPrimary type="submit">회원가입</ButtonPrimary>
         </Form>
       </SignupCard>

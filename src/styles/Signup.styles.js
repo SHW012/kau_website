@@ -1,5 +1,9 @@
+// src/styles/Signup.styles.js
 import styled from "styled-components";
 
+////////////////////////////////////////////////////////////////
+// SignupWrapper: 회원가입 페이지 전체 래퍼
+////////////////////////////////////////////////////////////////
 export const SignupWrapper = styled.div`
   min-height: calc(100vh - 300px);
   display: flex;
@@ -9,6 +13,9 @@ export const SignupWrapper = styled.div`
   background: #f5f7fa;
 `;
 
+////////////////////////////////////////////////////////////////
+// SignupCard: 실제 회원가입 폼이 담길 박스
+////////////////////////////////////////////////////////////////
 export const SignupCard = styled.div`
   width: 100%;
   max-width: 360px;
@@ -18,6 +25,9 @@ export const SignupCard = styled.div`
   padding: 32px;
 `;
 
+////////////////////////////////////////////////////////////////
+// Title: "회원가입" 텍스트
+////////////////////////////////////////////////////////////////
 export const Title = styled.h2`
   text-align: center;
   margin-bottom: 24px;
@@ -25,53 +35,52 @@ export const Title = styled.h2`
   font-size: 1.75rem;
 `;
 
+////////////////////////////////////////////////////////////////
+// Form: form 태그 (flex-column)
+////////////////////////////////////////////////////////////////
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 16px;
 `;
 
+////////////////////////////////////////////////////////////////
+// InputGroup: 아이콘 + input을 감싸는 래퍼
+////////////////////////////////////////////////////////////////
 export const InputGroup = styled.div`
   position: relative;
 `;
 
+////////////////////////////////////////////////////////////////
+// Icon: input 왼쪽에 위치할 아이콘
+////////////////////////////////////////////////////////////////
 export const Icon = styled.span`
   position: absolute;
   top: 50%;
   left: 12px;
   transform: translateY(-50%);
-  font-size: 1.2rem;
-  color: #888;
 `;
 
+////////////////////////////////////////////////////////////////
+// Input: 이메일/비밀번호를 입력하는 필드
+////////////////////////////////////////////////////////////////
 export const Input = styled.input`
   width: 100%;
   padding: 12px 16px;
-  padding-left: 40px;
+  padding-left: 44px; /* 아이콘 크기(18px) + left(12px) + 마진(14px) 정도 여유 */
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 1rem;
+
   &:focus {
     outline: none;
-    border-color: #20b2aa;
+    border-color: #002870; /* Pantone 294C 색상으로 포커스 시 강조 */
   }
 `;
 
-export const ButtonPrimary = styled.button`
-  width: 100%;
-  padding: 12px;
-  background: #20b2aa;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  cursor: pointer;
-  &:hover {
-    background: #1a8d82;
-  }
-`;
-
-// ✅ 비밀번호 토글 버튼
+////////////////////////////////////////////////////////////////
+// TogglePasswordBtn: 비밀번호 표시/숨김 버튼
+////////////////////////////////////////////////////////////////
 export const TogglePasswordBtn = styled.button`
   position: absolute;
   top: 50%;
@@ -79,11 +88,27 @@ export const TogglePasswordBtn = styled.button`
   transform: translateY(-50%);
   background: transparent;
   border: none;
-  font-size: 1.1rem;
   cursor: pointer;
-  color: #888;
-  padding: 0;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+`;
+
+////////////////////////////////////////////////////////////////
+// ButtonPrimary: 회원가입 버튼 스타일
+////////////////////////////////////////////////////////////////
+export const ButtonPrimary = styled.button`
+  width: 100%;
+  padding: 12px;
+  background: #002870; /* Pantone 294C (RGB: 0,40,112) */
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: center;
+
   &:hover {
-    color: #20b2aa;
+    background: #1a3370; /* 조금 밝게 변형한 색상 예시 */
   }
 `;
