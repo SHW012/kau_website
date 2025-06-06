@@ -7,19 +7,32 @@ import {
   PageTitle,
   DetailBox,
 } from "../../styles/NoticeDetail.styles.js";
+import { getNoticeDetail } from "../../api/api";
 
 export default function NoticeDetail() {
   const { id } = useParams();
   const [notice, setNotice] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const dummyNotices = [
-    { id: 1, title: "공지사항 예시 1", content: "내용입니다." },
-    { id: 2, title: "공지사항 예시 2", content: "다른 내용입니다." },
-  ];
-
+  // 상세 데이터를 가져오는 effect
   useEffect(() => {
-    const found = dummyNotices.find((item) => item.id === Number(id));
-    setNotice(found || null);
+    const fetchDetail = async () => {
+      setLoading(true);
+      try {
+        console.log(`🚀 [NoticeDetail] getNoticeDetail 호출 시작 (id: ${id})`);
+        const res = await getNoticeDetail(id);
+        console.log("✅ [NoticeDetail] getNoticeDetail 응답 데이터:", res.data);
+        setNotice(res.data);
+      } catch (err) {
+        console.error("❌ [NoticeDetail] getNoticeDetail 에러:", err);
+        alert("공지사항 상세를 불러오는 중 오류가 발생했습니다.");
+        setNotice(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDetail();
   }, [id]);
 
   return (
@@ -46,7 +59,10 @@ export default function NoticeDetail() {
 
       <ContentArea>
         <PageTitle>공지사항 상세</PageTitle>
-        {!notice ? (
+
+        {loading ? (
+          <div>로딩 중...</div>
+        ) : !notice ? (
           <>
             <div>해당 공지를 찾을 수 없습니다.</div>
             <Link

@@ -109,5 +109,18 @@ export const ListWrapper = styled.ul`
       color: #333;
       font-style: italic;
     }
+
+    button {
+      margin-left: 0.5rem;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      background: #fff;
+      border-radius: 4px;
+      &:hover {
+        background: #fafafa;
+      }
+    }
   }
 `;

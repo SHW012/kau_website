@@ -8,77 +8,44 @@ import {
   SearchBarWrapper,
   TableWrapper,
 } from "../../styles/Notice.styles";
+import { getNoticeList } from "../../api/api";
 
 export default function Notice() {
   const [items, setItems] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
+  const [loading, setLoading] = useState(false);
 
+  // 페이지 로딩 시, 또는 검색 버튼 클릭 시 목록을 가져오는 함수
   useEffect(() => {
-    // 실제 API 호출 시 이 부분만 교체하세요
-    setItems([
-      {
-        id: 102,
-        title:
-          "2025 아·태 지역 인터넷거버넌스 아카데미(APIGA) 프로그램 참여 지원(~05/11(일) 까지)",
-        date: "2025.04.21",
-        count: 185,
-      },
-      {
-        id: 101,
-        title:
-          "2025년도 대한전자공학회 하계종합학술대회 참가 지원(논문제출 ~05/01(목) 15:00까지)",
-        date: "2025.04.21",
-        count: 359,
-      },
-      {
-        id: 100,
-        title: "Matlab & Simulink 인프라 활용 특강",
-        date: "2025.04.16",
-        count: 149,
-      },
-      {
-        id: 99,
-        title:
-          "한국정보통신설비학회 2025 정보통신설비 춘계세미나 참가 모집 (추가 모집: ~25.04.16. 09:00)",
-        date: "2025.03.27",
-        count: 307,
-      },
-      {
-        id: 98,
-        title:
-          "2025학년도 1학기 캡스톤디자인 WE-Meet 프로젝트 과제 신청 결과 안내",
-        date: "2025.03.25",
-        count: 262,
-      },
-      {
-        id: 97,
-        title:
-          "2025학년도 1학기 캡스톤디자인 WE-Meet 프로젝트 과제 지원 선정 결과 지연 안내",
-        date: "2025.03.21",
-        count: 165,
-      },
-      {
-        id: 96,
-        title: "차세대통신 분야 동아리 운영 및 지원",
-        date: "2025.03.17",
-        count: 299,
-      },
-      {
-        id: 95,
-        title: "전남대 차세대통신융합신사업단 마일리지 제도 운영 중단 안내",
-        date: "2025.03.12",
-        count: 176,
-      },
-      {
-        id: 94,
-        title:
-          "2025학년도 1학기 캡스톤디자인 WE-Meet 프로젝트 과제 지원 안내(~3/20(목) 15:00 까지)",
-        date: "2025.03.05",
-        count: 966,
-      },
-    ]);
+    const fetchList = async () => {
+      setLoading(true);
+      try {
+        // 디버깅: 호출 직전 로그
+        console.log("🚀 [Notice] getNoticeList 호출 시작 (page:0, size:100)");
+        const res = await getNoticeList(0, 100);
+        console.log("✅ [Notice] getNoticeList 응답 데이터:", res.data);
+        // 보통 Spring Boot 페이징 응답 형태는 { content: [...], totalPages: X, ... }
+        const list = res.data.content ?? [];
+        setItems(list);
+      } catch (err) {
+        console.error("❌ [Notice] getNoticeList 에러:", err);
+        alert("공지사항 목록을 불러오는 중 오류가 발생했습니다.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchList();
   }, []);
 
+  // “검색” 버튼 클릭 시에도 목록을 다시 불러오기 위해 버튼에 연결
+  const handleSearchClick = () => {
+    // (원한다면 서버 측 검색 API가 따로 있다면 page/keyword 파라미터로 요청하도록 수정)
+    // 여기서는 클라이언트 필터링+전체 목록 재요청 조합
+    setSearchKeyword(searchKeyword.trim());
+  };
+
+  // 클라이언트 측 필터: 제목에 검색어가 포함된 것만 표시
   const filteredItems = items.filter((item) =>
     item.title.includes(searchKeyword)
   );
@@ -115,45 +82,51 @@ export default function Notice() {
             value={searchKeyword}
             onChange={(e) => setSearchKeyword(e.target.value)}
           />
-          <button>🔍</button>
+          <button onClick={handleSearchClick}>🔍</button>
         </SearchBarWrapper>
 
-        <TableWrapper>
-          <table>
-            <thead>
-              <tr>
-                <th style={{ width: "10%" }}>No.</th>
-                <th>Title</th>
-                <th style={{ width: "15%", textAlign: "center" }}>Date</th>
-                <th style={{ width: "10%", textAlign: "center" }}>Count</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredItems.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.id}</td>
-                  <td>
-                    <Link to={`/community/notice/${item.id}`}>
-                      {item.title}
-                    </Link>
-                  </td>
-                  <td style={{ textAlign: "center" }}>{item.date}</td>
-                  <td style={{ textAlign: "center" }}>{item.count}</td>
-                </tr>
-              ))}
-              {filteredItems.length === 0 && (
+        {loading ? (
+          <div>로딩 중...</div>
+        ) : (
+          <TableWrapper>
+            <table>
+              <thead>
                 <tr>
-                  <td
-                    colSpan={4}
-                    style={{ textAlign: "center", padding: "1rem" }}
-                  >
-                    검색 결과가 없습니다.
-                  </td>
+                  <th style={{ width: "10%" }}>No.</th>
+                  <th>Title</th>
+                  <th style={{ width: "15%", textAlign: "center" }}>Date</th>
+                  <th style={{ width: "10%", textAlign: "center" }}>Count</th>
                 </tr>
-              )}
-            </tbody>
-          </table>
-        </TableWrapper>
+              </thead>
+              <tbody>
+                {filteredItems.map((item) => (
+                  <tr key={item.id}>
+                    <td>{item.id}</td>
+                    <td>
+                      <Link to={`/community/notice/${item.id}`}>
+                        {item.title}
+                      </Link>
+                    </td>
+                    <td style={{ textAlign: "center" }}>{item.date}</td>
+                    <td style={{ textAlign: "center" }}>{item.count}</td>
+                  </tr>
+                ))}
+                {filteredItems.length === 0 && (
+                  <tr>
+                    <td
+                      colSpan={4}
+                      style={{ textAlign: "center", padding: "1rem" }}
+                    >
+                      {items.length === 0
+                        ? "등록된 공지사항이 없습니다."
+                        : "검색 결과가 없습니다."}
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </TableWrapper>
+        )}
       </ContentArea>
     </PageWrapper>
   );
