@@ -1,5 +1,4 @@
 // src/components/Navbar.jsx
-
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
@@ -17,7 +16,6 @@ import {
 import kauLogo from "../assets/kau_logo1.jpg";
 import { setAuthToken } from "../api/api";
 
-// 네비게이션 메뉴 항목 데이터
 const items = [
   {
     label: "사업단 소개",
@@ -65,10 +63,9 @@ export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // 경로(location)가 바뀔 때마다 localStorage를 다시 확인
+  // 경로(location) 또는 localStorage 값이 바뀔 때마다 반영
   useEffect(() => {
     const storedEmail = localStorage.getItem("userEmail");
-    // 콘솔로 확인 (없다면 null이 찍힘)
     console.log("[디버깅] Navbar - current location:", location.pathname);
     console.log("[디버깅] Navbar - localStorage userEmail:", storedEmail);
     setUserEmail(storedEmail);
@@ -78,22 +75,22 @@ export default function Navbar() {
     // 1) localStorage에서 userEmail 삭제
     localStorage.removeItem("userEmail");
 
-    // 2) 쿠키(accessToken) 삭제
+    // 2) 브라우저 쿠키 accessToken 만료시키기
     document.cookie = "accessToken=; path=/; max-age=0";
 
-    // 3) axios 인스턴스에 설정된 Authorization 헤더 제거
+    // 3) axios 인스턴스에서 Authorization 헤더 제거
     setAuthToken(null);
 
     // 4) 상태 초기화
     setUserEmail(null);
 
-    // 5) 홈 페이지로 이동
+    // 5) 로그아웃 후 홈(랜딩) 페이지로 이동
     navigate("/");
   };
 
   return (
     <>
-      {/* 상단 바: 로그인/회원가입 또는 userEmail/로그아웃 */}
+      {/* 상단 바: 로그인/회원가입 or (userEmail + 로그아웃) */}
       <TopBar>
         {userEmail ? (
           <>
@@ -164,7 +161,7 @@ export default function Navbar() {
           ))}
         </Menu>
 
-        {/* 모바일 전용 메뉴 (햄버거 클릭 시) */}
+        {/* 모바일 전용 메뉴 (햄버거 클릭 시 전개) */}
         {isOpen && (
           <MobileMenuWrapper>
             {items.map((item, i) => (

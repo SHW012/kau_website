@@ -1,5 +1,4 @@
 // src/pages/Login.jsx
-
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
@@ -40,9 +39,8 @@ export default function Login() {
         throw new Error("로그인 응답이 유효하지 않습니다.");
       }
 
-      // 백엔드 응답에 token(key)과 userEmail(key)가 무엇인지 반드시 확인하세요.
-      // 지금 예시에서는 token: "xxx", sub: "1234@naver.com", roles: [...] 등으로 내려올 수도 있습니다.
-      // 혹은 `response.data.username` 이나 `response.data.sub` 같은 곳에 이메일이 있을 수도 있습니다.
+      // 백엔드에서 내려주는 실제 키 이름 확인 필요
+      // 예시: response.data = { token: "...", sub: "user@naver.com", ... }
       const { accessToken, token, jwt, userEmail, sub } = response.data;
 
       console.log("[디버깅] response.data.accessToken:", accessToken);
@@ -53,7 +51,7 @@ export default function Login() {
 
       // 토큰 우선순위: accessToken > token > jwt
       const actualToken = accessToken || token || jwt;
-      // 실제 저장할 이메일: userEmail 키가 없으면 `sub` 를, 없으면 폼에 입력한 email을 사용
+      // 실제 이메일: userEmail 키가 없으면 sub, 없으면 사용자가 입력한 email 그대로 사용
       const actualEmail = userEmail || sub || email.trim();
 
       console.log("[디버깅] 실제 사용할 토큰값:", actualToken);
@@ -63,15 +61,17 @@ export default function Login() {
         throw new Error("로그인 응답에서 토큰을 찾을 수 없습니다.");
       }
 
-      // 토큰을 쿠키에 저장 (필요 시)
+      // 1) JWT 토큰을 브라우저 쿠키에 저장 (기본 path=/)
       document.cookie = `accessToken=${actualToken}; path=/;`;
+
+      // 2) Axios 인스턴스에 Authorization 헤더 설정
       setAuthToken(actualToken);
 
-      // **(★이 부분이 중요) localStorage에 사용자 이메일 저장**
+      // 3) localStorage에 사용자 이메일 저장 (Navbar가 이 값을 읽어 로그인 상태 판단)
       localStorage.setItem("userEmail", actualEmail);
       console.log("[디버깅] localStorage에 userEmail 저장 완료:", actualEmail);
 
-      // 로그인 성공 시 홈으로 이동
+      // 4) 로그인 성공 후 홈 페이지로 이동
       navigate("/");
     } catch (err) {
       console.error("[디버깅] 로그인 실패 오류 객체:", err);
