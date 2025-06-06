@@ -1,5 +1,6 @@
 // src/pages/community/Notice.jsx
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   getNoticeList,
   createNotice,
@@ -101,7 +102,9 @@ export default function Notice() {
       <ul>
         {items.map((n) => (
           <li key={n.id}>
-            <h3>{n.title}</h3>
+            <Link to={`/community/notice/${n.id}`}>
+              <h3>{n.title}</h3>
+            </Link>
             <p>{n.content}</p>
             <button onClick={() => startEdit(n)}>수정</button>
             <button onClick={() => handleDelete(n.id)}>삭제</button>

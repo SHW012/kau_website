@@ -21,6 +21,7 @@ import Resources from "./pages/community/Resources";
 import Media from "./pages/community/Media";
 import Gallery from "./pages/community/Gallery";
 import QnA from "./pages/community/QnA";
+import NoticeDetail from "./pages/community/NoticeDetail";
 
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -53,6 +54,7 @@ function AppContent() {
           <Route path="/apply/form" element={<Form />} />
           <Route path="/apply/my" element={<My />} />
           <Route path="/community/notice" element={<Notice />} />
+          <Route path="/community/notice/:id" element={<NoticeDetail />} />
           <Route path="/community/resources" element={<Resources />} />
           <Route path="/community/media" element={<Media />} />
           <Route path="/community/gallery" element={<Gallery />} />
