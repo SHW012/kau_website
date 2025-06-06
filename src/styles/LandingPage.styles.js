@@ -3,6 +3,7 @@ import heroImage from "../assets/kau_image.png";
 
 export const Wrapper = styled.div`
   width: 100%;
+<<<<<<< HEAD
 `;
 
 export const HeroSection = styled.div`
@@ -99,4 +100,19 @@ export const NewBadge = styled.span`
   @media (max-width: 768px) {
     font-size: 0.6rem;
   }
+=======
+  max-width: 100%;
+  height: 100vh; /* 화면 전체 높이 */
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+`;
+
+// ✅ 반응형 이미지 스타일
+export const HeroImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 이미지가 영역을 꽉 채우도록 */
+  display: block;
+>>>>>>> 45ff76bb48f8aa76936b1cef046c31a5ca0cac6d
 `;
