@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {
   Wrapper,
   HeroSection,
@@ -20,7 +21,7 @@ export default function LandingPage() {
 
       <ContentSection>
         <ContentBox>
-          <SectionTitle>홍보자료</SectionTitle>
+          <SectionTitle as={Link} to="/community/media">홍보자료</SectionTitle>
           <ul>
             <ListItem>
               [포토뉴스] 혁신융합대학사업 지자체 총괄사업단장 간담회
@@ -34,7 +35,7 @@ export default function LandingPage() {
         </ContentBox>
 
         <ContentBox>
-          <SectionTitle>공지사항</SectionTitle>
+          <SectionTitle as={Link} to="/community/notice">공지사항</SectionTitle>
           <ul>
             <ListItem>
               2025학년도 1학기 UROP 결과보고서 제출 안내(~6/16)
