@@ -14,7 +14,12 @@ async function apiRequest(path, options = {}) {
     throw new Error(message || response.statusText);
   }
   if (response.status === 204) return null;
-  return response.json();
+
+  const contentType = response.headers.get('content-type') || '';
+  if (contentType.includes('application/json')) {
+    return response.json();
+  }
+  return response.text();
 }
 
 export const getQnaList = (page = 0, size = 10) =>
