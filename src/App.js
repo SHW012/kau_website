@@ -1,3 +1,5 @@
+// src/App.js
+
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import GlobalStyle from "./styles/GlobalStyle";
@@ -17,14 +19,11 @@ import Form from "./pages/apply/Form";
 import My from "./pages/apply/My";
 
 import Notice from "./pages/community/Notice";
+import NoticeDetail from "./pages/community/NoticeDetail";
 import Resources from "./pages/community/Resources";
 import Media from "./pages/community/Media";
 import Gallery from "./pages/community/Gallery";
 import QnA from "./pages/community/QnA";
-import NoticeDetail from "./pages/community/NoticeDetail";
-
-// CommunityLayout import
-import CommunityLayout from "./pages/community/CommunityLayout";
 
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -66,66 +65,13 @@ function AppContent() {
           <Route path="/apply/form" element={<Form />} />
           <Route path="/apply/my" element={<My />} />
 
-          {/* Community 섹션: CommunityLayout으로 래핑 */}
-
-          {/* 1) 공지사항 목록 */}
-          <Route
-            path="/community/notice"
-            element={
-              <CommunityLayout activeKey="공지사항">
-                <Notice />
-              </CommunityLayout>
-            }
-          />
-          {/* 1-1) 공지사항 상세 */}
-          <Route
-            path="/community/notice/:id"
-            element={
-              <CommunityLayout activeKey="공지사항">
-                <NoticeDetail />
-              </CommunityLayout>
-            }
-          />
-
-          {/* 2) 자료실 */}
-          <Route
-            path="/community/resources"
-            element={
-              <CommunityLayout activeKey="자료실">
-                <Resources />
-              </CommunityLayout>
-            }
-          />
-
-          {/* 3) 홍보자료 */}
-          <Route
-            path="/community/media"
-            element={
-              <CommunityLayout activeKey="홍보자료">
-                <Media />
-              </CommunityLayout>
-            }
-          />
-
-          {/* 4) 갤러리 */}
-          <Route
-            path="/community/gallery"
-            element={
-              <CommunityLayout activeKey="갤러리">
-                <Gallery />
-              </CommunityLayout>
-            }
-          />
-
-          {/* 5) QnA */}
-          <Route
-            path="/community/qna"
-            element={
-              <CommunityLayout activeKey="QnA">
-                <QnA />
-              </CommunityLayout>
-            }
-          />
+          {/* Community 섹션 (레이아웃 없이 직접 컴포넌트 렌더링) */}
+          <Route path="/community/notice" element={<Notice />} />
+          <Route path="/community/notice/:id" element={<NoticeDetail />} />
+          <Route path="/community/resources" element={<Resources />} />
+          <Route path="/community/media" element={<Media />} />
+          <Route path="/community/gallery" element={<Gallery />} />
+          <Route path="/community/qna" element={<QnA />} />
         </Routes>
       </div>
     </>
