@@ -3,23 +3,21 @@ import heroImage from "../assets/kau_image.png";
 
 export const Wrapper = styled.div`
   width: 100%;
-<<<<<<< HEAD
+  height: 100vh;
+  background-color: #222;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 `;
 
 export const HeroSection = styled.div`
+  flex: 6;
   background-image: url(${heroImage});
   background-size: cover;
   background-position: center center;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
-  height: 90vh;
-
-  @media (max-width: 768px) {
-    height: auto;
-    aspect-ratio: 16 / 9; /* 또는 이미지 비율에 따라 조정 (예: 3 / 2) */
-  }
 `;
 
 export const HeroText = styled.h1`
@@ -30,13 +28,15 @@ export const HeroText = styled.h1`
   text-align: center;
 
   @media (max-width: 768px) {
-    font-size: 2.2rem;
+    font-size: 2rem;
   }
 `;
 
 export const ContentSection = styled.div`
+  flex: 4;
   display: flex;
   justify-content: center;
+  align-items: stretch; /* ✅ 박스 높이 통일 */
   background: #222;
   color: white;
   padding: 2rem 1rem;
@@ -50,10 +50,12 @@ export const ContentBox = styled.div`
   border-radius: 8px;
   width: 100%;
   max-width: 500px;
+  min-height: 200px; /* ✅ 최소 높이 통일 */
 
   @media (max-width: 768px) {
     padding: 1rem;
     max-width: 100%;
+    min-height: auto; /* 모바일에서는 높이 자동 */
   }
 `;
 
@@ -87,32 +89,4 @@ export const ListDate = styled.span`
   @media (max-width: 768px) {
     font-size: 0.75rem;
   }
-`;
-
-export const NewBadge = styled.span`
-  background: red;
-  color: white;
-  font-size: 0.7rem;
-  padding: 2px 6px;
-  margin-left: 6px;
-  border-radius: 4px;
-
-  @media (max-width: 768px) {
-    font-size: 0.6rem;
-  }
-=======
-  max-width: 100%;
-  height: 100vh; /* 화면 전체 높이 */
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-`;
-
-// ✅ 반응형 이미지 스타일
-export const HeroImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* 이미지가 영역을 꽉 채우도록 */
-  display: block;
->>>>>>> 45ff76bb48f8aa76936b1cef046c31a5ca0cac6d
 `;
