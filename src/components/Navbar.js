@@ -103,38 +103,38 @@ export default function Navbar() {
             </MenuItem>
           ))}
         </Menu>
-      </Nav>
 
-      {/* 모바일 전용 메뉴 */}
-      {isOpen && (
-        <MobileMenuWrapper>
-          {items.map((item, i) => (
-            <MenuItem key={i}>
-              <Link to={item.to} onClick={() => setIsOpen(false)}>
-                {item.label}
-              </Link>
-              {item.sub && (
-                <SubMenu>
-                  {item.sub.map((sub, j) => (
-                    <SubMenuItem
-                      key={j}
-                      style={
-                        sub.disabled
-                          ? { opacity: 0.5, pointerEvents: "none" }
-                          : {}
-                      }
-                    >
-                      <Link to={sub.to} onClick={() => setIsOpen(false)}>
-                        {sub.label}
-                      </Link>
-                    </SubMenuItem>
-                  ))}
-                </SubMenu>
-              )}
-            </MenuItem>
-          ))}
-        </MobileMenuWrapper>
-      )}
+        {/* 모바일 전용 메뉴 */}
+        {isOpen && (
+          <MobileMenuWrapper>
+            {items.map((item, i) => (
+              <MenuItem key={i}>
+                <Link to={item.to} onClick={() => setIsOpen(false)}>
+                  {item.label}
+                </Link>
+                {item.sub && (
+                  <SubMenu>
+                    {item.sub.map((sub, j) => (
+                      <SubMenuItem
+                        key={j}
+                        style={
+                          sub.disabled
+                            ? { opacity: 0.5, pointerEvents: "none" }
+                            : {}
+                        }
+                      >
+                        <Link to={sub.to} onClick={() => setIsOpen(false)}>
+                          {sub.label}
+                        </Link>
+                      </SubMenuItem>
+                    ))}
+                  </SubMenu>
+                )}
+              </MenuItem>
+            ))}
+          </MobileMenuWrapper>
+        )}
+      </Nav>
     </>
   );
 }
