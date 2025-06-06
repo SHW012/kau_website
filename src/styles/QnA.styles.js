@@ -1,125 +1,111 @@
+// src/styles/QnA.styles.js
+
 import styled from "styled-components";
 
-export const PageWrapper = styled.div`
-  display: flex;
+////////////////////////////////////////////////////////////////////////////////
+// Container: 전체 페이지 콘텐츠 래퍼 (중앙 정렬, 최대 너비)
+////////////////////////////////////////////////////////////////////////////////
+export const Container = styled.div`
   width: 100%;
-  min-height: calc(100vh - 100px);
-`;
-
-export const SideNav = styled.nav`
-  width: 200px;
-  background: #f9f9f9;
-  border-right: 1px solid #ddd;
-  padding: 1rem;
-  box-sizing: border-box;
-
-  ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  li {
-    margin-bottom: 0.75rem;
-  }
-
-  a {
-    text-decoration: none;
-    color: #333;
-    &:hover {
-      color: #007bff;
-    }
-  }
-`;
-
-export const ContentArea = styled.div`
-  flex: 1;
-  padding: 1rem 2rem;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
   box-sizing: border-box;
 `;
 
+////////////////////////////////////////////////////////////////////////////////
+// PageTitle: 상단 제목 스타일
+////////////////////////////////////////////////////////////////////////////////
 export const PageTitle = styled.h2`
-  margin-top: 0;
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-  color: #222;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #002870; /* Pantone 294C 색상 */
+  margin-bottom: 1.5rem;
 `;
 
+////////////////////////////////////////////////////////////////////////////////
+// FormWrapper: QnA 등록/수정/답변 폼 래퍼
+////////////////////////////////////////////////////////////////////////////////
 export const FormWrapper = styled.form`
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 
   input,
   textarea {
     width: 100%;
-    padding: 0.75rem 1rem;
+    padding: 0.75rem;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1rem;
-    box-sizing: border-box;
+    resize: vertical;
+
+    &:focus {
+      outline: none;
+      border-color: #002870;
+    }
   }
 
   button {
-    align-self: flex-start;
-    padding: 0.5rem 1.5rem;
-    font-size: 1rem;
-    border: none;
-    background: #007bff;
+    align-self: flex-end;
+    padding: 0.5rem 1rem;
+    background: #002870;
     color: #fff;
+    border: none;
     border-radius: 4px;
+    font-size: 1rem;
     cursor: pointer;
 
     &:hover {
-      background: #005bb5;
+      background: #1a3370;
     }
   }
 `;
 
+////////////////////////////////////////////////////////////////////////////////
+// ListWrapper: QnA 리스트 래퍼
+////////////////////////////////////////////////////////////////////////////////
 export const ListWrapper = styled.ul`
   list-style: none;
   margin: 0;
   padding: 0;
 
   li {
+    background: #f9f9f9;
+    border-radius: 6px;
     padding: 1rem;
-    border-bottom: 1px solid #eee;
-
-    &:hover {
-      background: #fafafa;
-    }
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 
     h3 {
-      margin: 0 0 0.5rem;
       font-size: 1.1rem;
+      margin-bottom: 0.5rem;
       color: #333;
     }
 
     p {
-      margin: 0 0 0.5rem;
+      font-size: 0.95rem;
       color: #555;
     }
 
     .answer {
-      margin-top: 0.5rem;
-      padding: 0.75rem 1rem;
-      background: #f1f1f1;
-      border-radius: 4px;
-      color: #333;
       font-style: italic;
+      color: #002870;
     }
 
     button {
-      margin-left: 0.5rem;
+      background: transparent;
+      border: 1px solid #002870;
+      color: #002870;
       padding: 0.25rem 0.5rem;
-      font-size: 0.9rem;
-      cursor: pointer;
-      border: 1px solid #ccc;
-      background: #fff;
       border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+
       &:hover {
-        background: #fafafa;
+        background: #002870;
+        color: #fff;
       }
     }
   }

@@ -1,9 +1,8 @@
+// src/pages/community/Gallery.jsx
+
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import {
-  PageWrapper,
-  SideNav,
-  ContentArea,
+  Container,
   PageTitle,
   GridWrapper,
   ImageCard,
@@ -13,7 +12,7 @@ export default function Gallery() {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
-    // 실제 API 호출 시 해당 부분을 변경하세요
+    // 실제 API 호출 시 이 부분을 변경하세요.
     setImages([
       {
         id: 1,
@@ -49,38 +48,16 @@ export default function Gallery() {
   }, []);
 
   return (
-    <PageWrapper>
-      <SideNav>
-        <ul>
-          <li>
-            <Link to="/community/notice">공지사항</Link>
-          </li>
-          <li>
-            <Link to="/community/resources">자료실</Link>
-          </li>
-          <li>
-            <Link to="/community/media">홍보자료</Link>
-          </li>
-          <li>
-            <Link to="/community/gallery">갤러리</Link>
-          </li>
-          <li>
-            <Link to="/community/qna">QnA</Link>
-          </li>
-        </ul>
-      </SideNav>
-
-      <ContentArea>
-        <PageTitle>갤러리</PageTitle>
-        <GridWrapper>
-          {images.map((img) => (
-            <ImageCard key={img.id}>
-              <img src={img.src} alt={img.title} />
-              <p>{img.title}</p>
-            </ImageCard>
-          ))}
-        </GridWrapper>
-      </ContentArea>
-    </PageWrapper>
+    <Container>
+      <PageTitle>갤러리</PageTitle>
+      <GridWrapper>
+        {images.map((img) => (
+          <ImageCard key={img.id}>
+            <img src={img.src} alt={img.title} />
+            <p>{img.title}</p>
+          </ImageCard>
+        ))}
+      </GridWrapper>
+    </Container>
   );
 }

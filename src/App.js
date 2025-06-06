@@ -4,8 +4,8 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import GlobalStyle from "./styles/GlobalStyle";
 import Navbar from "./components/Navbar";
-import LandingPage from "./pages/LandingPage";
 
+import LandingPage from "./pages/LandingPage";
 import Intro from "./pages/about/Intro";
 import Greeting from "./pages/about/Greeting";
 import Team from "./pages/about/Team";
@@ -32,7 +32,9 @@ function AppContent() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -41,39 +43,38 @@ function AppContent() {
     <>
       <GlobalStyle />
       <Navbar isMobile={isMobile} />
-      <div>
-        <Routes>
-          {/* 로그인/회원가입 */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
 
-          {/* 메인 랜딩 페이지 */}
-          <Route path="/" element={<LandingPage />} />
+      <Routes>
+        {/* 로그인/회원가입 */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
 
-          {/* About 페이지 */}
-          <Route path="/about/intro" element={<Intro />} />
-          <Route path="/about/greeting" element={<Greeting />} />
-          <Route path="/about/team" element={<Team />} />
-          <Route path="/about/location" element={<Location />} />
+        {/* 메인 랜딩 페이지 */}
+        <Route path="/" element={<LandingPage />} />
 
-          {/* Programs 페이지 */}
-          <Route path="/programs/microdegree" element={<Microdegree />} />
-          <Route path="/programs/wemeet" element={<Wemeet />} />
-          <Route path="/programs/intern" element={<Intern />} />
+        {/* About 페이지 */}
+        <Route path="/about/intro" element={<Intro />} />
+        <Route path="/about/greeting" element={<Greeting />} />
+        <Route path="/about/team" element={<Team />} />
+        <Route path="/about/location" element={<Location />} />
 
-          {/* Apply 페이지 */}
-          <Route path="/apply/form" element={<Form />} />
-          <Route path="/apply/my" element={<My />} />
+        {/* Programs 페이지 */}
+        <Route path="/programs/microdegree" element={<Microdegree />} />
+        <Route path="/programs/wemeet" element={<Wemeet />} />
+        <Route path="/programs/intern" element={<Intern />} />
 
-          {/* Community 섹션 (레이아웃 없이 직접 컴포넌트 렌더링) */}
-          <Route path="/community/notice" element={<Notice />} />
-          <Route path="/community/notice/:id" element={<NoticeDetail />} />
-          <Route path="/community/resources" element={<Resources />} />
-          <Route path="/community/media" element={<Media />} />
-          <Route path="/community/gallery" element={<Gallery />} />
-          <Route path="/community/qna" element={<QnA />} />
-        </Routes>
-      </div>
+        {/* Apply 페이지 */}
+        <Route path="/apply/form" element={<Form />} />
+        <Route path="/apply/my" element={<My />} />
+
+        {/* Community 섹션: 사이드 메뉴 없이, 각 컴포넌트만 직접 렌더링 */}
+        <Route path="/community/notice" element={<Notice />} />
+        <Route path="/community/notice/:id" element={<NoticeDetail />} />
+        <Route path="/community/resources" element={<Resources />} />
+        <Route path="/community/media" element={<Media />} />
+        <Route path="/community/gallery" element={<Gallery />} />
+        <Route path="/community/qna" element={<QnA />} />
+      </Routes>
     </>
   );
 }
