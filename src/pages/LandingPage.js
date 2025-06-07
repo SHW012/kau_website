@@ -1,12 +1,10 @@
-// src/pages/LandingPage.jsx
-
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-// **배너 이미지 import**
-import banner from "../assets/kau_image.png"; // 실제 파일 경로에 맞게 수정
+// 배너 이미지
+import banner from "../assets/kau_image.png";
 
-// 스타일 임포트
+// 스타일
 import {
   Wrapper,
   HeroSection,
@@ -17,26 +15,37 @@ import {
   ListDate,
 } from "../styles/LandingPage.styles";
 
-// Chatbot 컴포넌트
+// 챗봇
 import Chatbot from "../components/Chatbot";
 
-// React Icons
+// 아이콘
 import { FaBullhorn, FaBell } from "react-icons/fa";
 
+// API
+import { getNoticeList } from "../api/api";
+
 export default function LandingPage() {
+  const [latestNotices, setLatestNotices] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await getNoticeList(0, 2); // 최신 2개
+        setLatestNotices(res.data.content || []);
+      } catch (err) {
+        console.error("공지사항 불러오기 실패:", err);
+      }
+    })();
+  }, []);
+
   return (
     <Wrapper>
-      {/* ───────────────────────────────────────────────────────────────
-        HeroSection: 배너 영역
-        - banner 이미지를 props로 넘겨 줍니다.
-      ─────────────────────────────────────────────────────────────── */}
+      {/* 배너 */}
       <HeroSection bannerImage={banner} />
 
-      {/* ───────────────────────────────────────────────────────────────
-        ContentSection: 홍보자료 / 공지사항 섹션
-      ─────────────────────────────────────────────────────────────── */}
+      {/* 홍보자료 & 공지사항 */}
       <ContentSection>
-        {/* 홍보자료 Box */}
+        {/* 홍보자료 */}
         <ContentBox>
           <SectionTitle as={Link} to="/community/media">
             <FaBullhorn
@@ -56,7 +65,7 @@ export default function LandingPage() {
           </ul>
         </ContentBox>
 
-        {/* 공지사항 Box */}
+        {/* 공지사항 */}
         <ContentBox>
           <SectionTitle as={Link} to="/community/notice">
             <FaBell
@@ -65,19 +74,22 @@ export default function LandingPage() {
             공지사항
           </SectionTitle>
           <ul>
-            <ListItem>
-              <ListDate>2025.04.21</ListDate>
-              2025학년도 1학기 UROP 결과보고서 제출 안내
-            </ListItem>
-            <ListItem>
-              <ListDate>2025.04.16</ListDate>
-              Matlab &amp; Simulink 인프라 활용 특강 안내
-            </ListItem>
+            {latestNotices.map((notice) => (
+              <ListItem key={notice.id}>
+                <ListDate>{notice.date}</ListDate>
+                <Link
+                  to={`/community/notice/${notice.id}`}
+                  style={{ textDecoration: "none", color: "#333" }}
+                >
+                  {notice.title}
+                </Link>
+              </ListItem>
+            ))}
           </ul>
         </ContentBox>
       </ContentSection>
 
-      {/* LandingPage 하단에 Chatbot 컴포넌트를 추가 */}
+      {/* 챗봇 */}
       <Chatbot />
     </Wrapper>
   );
