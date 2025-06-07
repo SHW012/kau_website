@@ -1,56 +1,71 @@
 // src/pages/community/Notice.jsx
 
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Container,
   PageTitle,
   SearchBarWrapper,
   TableWrapper,
+  ActionButton,
 } from "../../styles/Notice.styles.js";
-import { getNoticeList } from "../../api/api";
+import { getNoticeList, deleteNotice } from "../../api/api";
 
 export default function Notice() {
   const [items, setItems] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  // 페이지 로딩 시 목록을 가져오는 함수
+  // 관리자 여부: 로컬스토리지에 저장한 userEmail 에서 판단
+  const userEmail = localStorage.getItem("userEmail");
+  const isAdmin = userEmail === "admin@gmail.com";
+
   useEffect(() => {
-    const fetchList = async () => {
-      setLoading(true);
-      try {
-        console.log("🚀 [Notice] getNoticeList 호출 시작 (page:0, size:100)");
-        const res = await getNoticeList(0, 100);
-        console.log("✅ [Notice] getNoticeList 응답 데이터:", res.data);
-        const list = res.data.content ?? [];
-        setItems(list);
-      } catch (err) {
-        console.error("❌ [Notice] getNoticeList 에러:", err);
-        alert("공지사항 목록을 불러오는 중 오류가 발생했습니다.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchList();
   }, []);
 
-  // 검색 버튼 클릭 시 검색어 적용
-  const handleSearchClick = () => {
-    setSearchKeyword(searchKeyword.trim());
+  const fetchList = async () => {
+    setLoading(true);
+    try {
+      const res = await getNoticeList(0, 100);
+      setItems(res.data.content || []);
+    } catch (err) {
+      alert("공지사항을 불러오는 중 오류가 발생했습니다.");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // 제목에 검색어가 포함된 항목만 필터링
+  const handleDelete = async (id) => {
+    if (!window.confirm("정말 삭제하시겠습니까?")) return;
+    try {
+      await deleteNotice(id);
+      fetchList();
+    } catch (err) {
+      alert(
+        err.response?.status === 403
+          ? "권한이 없습니다."
+          : "삭제 중 오류가 발생했습니다."
+      );
+    }
+  };
+
   const filteredItems = items.filter((item) =>
-    item.title.includes(searchKeyword)
+    item.title.includes(searchKeyword.trim())
   );
 
   return (
     <Container>
       <PageTitle>공지사항</PageTitle>
 
-      {/* 검색바 */}
+      {/* 관리자는 새 공지 작성 버튼 */}
+      {isAdmin && (
+        <ActionButton onClick={() => navigate("/community/notice/new")}>
+          새 공지 작성
+        </ActionButton>
+      )}
+
       <SearchBarWrapper>
         <input
           type="text"
@@ -58,11 +73,13 @@ export default function Notice() {
           value={searchKeyword}
           onChange={(e) => setSearchKeyword(e.target.value)}
         />
-        <button onClick={handleSearchClick}>🔍</button>
+        <button onClick={() => setSearchKeyword(searchKeyword.trim())}>
+          🔍
+        </button>
       </SearchBarWrapper>
 
       {loading ? (
-        <div>로딩 중...</div>
+        <p>로딩 중...</p>
       ) : (
         <TableWrapper>
           <table>
@@ -71,7 +88,7 @@ export default function Notice() {
                 <th style={{ width: "10%" }}>No.</th>
                 <th>Title</th>
                 <th style={{ width: "15%", textAlign: "center" }}>Date</th>
-                <th style={{ width: "10%", textAlign: "center" }}>Count</th>
+                {isAdmin && <th style={{ width: "15%" }}>Actions</th>}
               </tr>
             </thead>
             <tbody>
@@ -87,25 +104,23 @@ export default function Notice() {
                     </Link>
                   </td>
                   <td style={{ textAlign: "center" }}>{item.date}</td>
-                  <td style={{ textAlign: "center" }}>{item.count}</td>
+                  {isAdmin && (
+                    <td style={{ textAlign: "center" }}>
+                      <ActionButton
+                        onClick={() => navigate(`/community/notice/${item.id}`)}
+                      >
+                        수정
+                      </ActionButton>
+                      <ActionButton
+                        danger
+                        onClick={() => handleDelete(item.id)}
+                      >
+                        삭제
+                      </ActionButton>
+                    </td>
+                  )}
                 </tr>
               ))}
-              {filteredItems.length === 0 && (
-                <tr>
-                  <td
-                    colSpan={4}
-                    style={{
-                      textAlign: "center",
-                      padding: "1rem",
-                      color: "#555",
-                    }}
-                  >
-                    {items.length === 0
-                      ? "등록된 공지사항이 없습니다."
-                      : "검색 결과가 없습니다."}
-                  </td>
-                </tr>
-              )}
             </tbody>
           </table>
         </TableWrapper>

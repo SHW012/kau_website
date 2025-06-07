@@ -19,6 +19,7 @@ import Form from "./pages/apply/Form";
 import My from "./pages/apply/My";
 
 import Notice from "./pages/community/Notice";
+import NoticeCreate from "./pages/community/NoticeCreate";
 import NoticeDetail from "./pages/community/NoticeDetail";
 import Resources from "./pages/community/Resources";
 import Media from "./pages/community/Media";
@@ -67,8 +68,9 @@ function AppContent() {
         <Route path="/apply/form" element={<Form />} />
         <Route path="/apply/my" element={<My />} />
 
-        {/* Community 섹션: 사이드 메뉴 없이, 각 컴포넌트만 직접 렌더링 */}
+        {/* Community 섹션 */}
         <Route path="/community/notice" element={<Notice />} />
+        <Route path="/community/notice/new" element={<NoticeCreate />} />
         <Route path="/community/notice/:id" element={<NoticeDetail />} />
         <Route path="/community/resources" element={<Resources />} />
         <Route path="/community/media" element={<Media />} />

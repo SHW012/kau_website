@@ -1,5 +1,3 @@
-// src/styles/Notice.styles.js
-
 import styled from "styled-components";
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -124,5 +122,24 @@ export const TableWrapper = styled.div`
         }
       }
     }
+  }
+`;
+
+////////////////////////////////////////////////////////////////////////////////
+// ActionButton: 관리자 전용 액션 버튼 스타일
+////////////////////////////////////////////////////////////////////////////////
+export const ActionButton = styled.button`
+  padding: 0.5rem 1rem;
+  background: ${(p) => (p.danger ? "#c62828" : "#002870")};
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  margin-bottom: 1rem;
+
+  &:hover {
+    background: ${(p) => (p.danger ? "#a71e1e" : "#1a3370")};
   }
 `;
