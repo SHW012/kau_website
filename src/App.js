@@ -35,13 +35,20 @@ function AppContent() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
-    // 쿠키에서 accessToken을 읽어 axios 헤더에 설정
-    const token = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("accessToken="))
-      ?.split("=")[1];
+    // ✅ 토큰 우선 localStorage에서 찾고, 없으면 쿠키에서 찾기
+    let token = localStorage.getItem("accessToken");
+    if (!token) {
+      token = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("accessToken="))
+        ?.split("=")[1];
+    }
+
     if (token) {
       setAuthToken(token);
+      console.log("✅ JWT 토큰 설정 완료");
+    } else {
+      console.warn("⚠️ JWT 토큰이 존재하지 않음");
     }
 
     const handleResize = () => {
@@ -59,28 +66,29 @@ function AppContent() {
         {/* 인증 */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+
         {/* 메인 */}
         <Route path="/" element={<LandingPage />} />
+
         {/* 소개 */}
         <Route path="/about/intro" element={<Intro />} />
         <Route path="/about/greeting" element={<Greeting />} />
         <Route path="/about/team" element={<Team />} />
         <Route path="/about/location" element={<Location />} />
+
         {/* 프로그램 */}
         <Route path="/programs/microdegree" element={<Microdegree />} />
         <Route path="/programs/wemeet" element={<Wemeet />} />
         <Route path="/programs/intern" element={<Intern />} />
+
         {/* 신청 */}
         <Route path="/apply/form" element={<Form />} />
         <Route path="/apply/my" element={<My />} />
+
         {/* 커뮤니티 */}
         <Route path="/community/notice" element={<Notice />} />
         <Route path="/community/notice/new" element={<NoticeCreate />} />
-        <Route
-          path="/community/notice/edit/:id"
-          element={<NoticeCreate />}
-        />{" "}
-        {/* ✅ 수정 추가 */}
+        <Route path="/community/notice/edit/:id" element={<NoticeCreate />} />
         <Route path="/community/notice/:id" element={<NoticeDetail />} />
         <Route path="/community/resources" element={<Resources />} />
         <Route path="/community/media" element={<Media />} />

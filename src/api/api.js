@@ -4,19 +4,23 @@ import axios from "axios";
 
 const API_BASE_URL = "http://13.125.148.30:8080/api";
 
+// ✅ Axios 인스턴스 생성
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true, // ✅ 인증 정보 쿠키 포함 허용
 });
 
-// JWT 토큰을 Axios Header에 붙여 주는 함수
+// ✅ JWT 토큰을 Axios Header에 붙이는 함수
 export function setAuthToken(token) {
   if (token) {
     api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    console.log("✅ [api.js] Authorization 헤더 설정 완료:", token);
   } else {
     delete api.defaults.headers.common["Authorization"];
+    console.warn("🧹 [api.js] Authorization 헤더 제거됨");
   }
 }
 
