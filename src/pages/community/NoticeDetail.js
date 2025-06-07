@@ -79,7 +79,7 @@ export default function NoticeDetail() {
 
   return (
     <PageWrapper>
-      <PageTitle>공지사항 상세</PageTitle>
+      <PageTitle>공지사항</PageTitle>
 
       {loading ? (
         <div>로딩 중...</div>

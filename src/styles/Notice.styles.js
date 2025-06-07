@@ -1,8 +1,5 @@
 import styled from "styled-components";
 
-////////////////////////////////////////////////////////////////////////////////
-// Container: 전체 페이지 콘텐츠 래퍼 (중앙 정렬, 최대 너비)
-////////////////////////////////////////////////////////////////////////////////
 export const Container = styled.div`
   width: 100%;
   max-width: 1200px;
@@ -11,19 +8,13 @@ export const Container = styled.div`
   box-sizing: border-box;
 `;
 
-////////////////////////////////////////////////////////////////////////////////
-// PageTitle: 상단 제목 스타일
-////////////////////////////////////////////////////////////////////////////////
 export const PageTitle = styled.h2`
   font-size: 1.8rem;
   font-weight: bold;
-  color: #002870; /* Pantone 294C 계열 */
+  color: #002870;
   margin-bottom: 1.5rem;
 `;
 
-////////////////////////////////////////////////////////////////////////////////
-// SearchBarWrapper: 검색바 래퍼
-////////////////////////////////////////////////////////////////////////////////
 export const SearchBarWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -63,9 +54,6 @@ export const SearchBarWrapper = styled.div`
   }
 `;
 
-////////////////////////////////////////////////////////////////////////////////
-// TableWrapper: 테이블 래퍼 (가로 스크롤 가능)
-////////////////////////////////////////////////////////////////////////////////
 export const TableWrapper = styled.div`
   width: 100%;
   overflow-x: auto;
@@ -125,9 +113,6 @@ export const TableWrapper = styled.div`
   }
 `;
 
-////////////////////////////////////////////////////////////////////////////////
-// ActionButton: 관리자 전용 액션 버튼 스타일
-////////////////////////////////////////////////////////////////////////////////
 export const ActionButton = styled.button`
   padding: 0.5rem 1rem;
   background: ${(p) => (p.danger ? "#c62828" : "#002870")};
@@ -142,4 +127,14 @@ export const ActionButton = styled.button`
   &:hover {
     background: ${(p) => (p.danger ? "#a71e1e" : "#1a3370")};
   }
+`;
+
+export const FormWrapper = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
 `;

@@ -1,5 +1,3 @@
-// src/pages/community/Notice.jsx
-
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -17,7 +15,6 @@ export default function Notice() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // 관리자 여부: 로컬스토리지에 저장한 userEmail 에서 판단
   const userEmail = localStorage.getItem("userEmail");
   const isAdmin = userEmail === "admin@gmail.com";
 
@@ -59,10 +56,9 @@ export default function Notice() {
     <Container>
       <PageTitle>공지사항</PageTitle>
 
-      {/* 관리자는 새 공지 작성 버튼 */}
       {isAdmin && (
         <ActionButton onClick={() => navigate("/community/notice/new")}>
-          새 공지 작성
+          공지작성
         </ActionButton>
       )}
 
@@ -107,7 +103,9 @@ export default function Notice() {
                   {isAdmin && (
                     <td style={{ textAlign: "center" }}>
                       <ActionButton
-                        onClick={() => navigate(`/community/notice/${item.id}`)}
+                        onClick={() =>
+                          navigate(`/community/notice/edit/${item.id}`)
+                        }
                       >
                         수정
                       </ActionButton>

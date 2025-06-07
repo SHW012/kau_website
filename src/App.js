@@ -19,7 +19,7 @@ import Form from "./pages/apply/Form";
 import My from "./pages/apply/My";
 
 import Notice from "./pages/community/Notice";
-import NoticeCreate from "./pages/community/NoticeCreate";
+import NoticeCreate from "./pages/community/NoticeCreate"; // 생성 + 수정 겸용
 import NoticeDetail from "./pages/community/NoticeDetail";
 import Resources from "./pages/community/Resources";
 import Media from "./pages/community/Media";
@@ -29,10 +29,21 @@ import QnA from "./pages/community/QnA";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 
+import { setAuthToken } from "./api/api";
+
 function AppContent() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
+    // 쿠키에서 accessToken을 읽어 axios 헤더에 설정
+    const token = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("accessToken="))
+      ?.split("=")[1];
+    if (token) {
+      setAuthToken(token);
+    }
+
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
     };
@@ -44,33 +55,32 @@ function AppContent() {
     <>
       <GlobalStyle />
       <Navbar isMobile={isMobile} />
-
       <Routes>
-        {/* 로그인/회원가입 */}
+        {/* 인증 */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-
-        {/* 메인 랜딩 페이지 */}
+        {/* 메인 */}
         <Route path="/" element={<LandingPage />} />
-
-        {/* About 페이지 */}
+        {/* 소개 */}
         <Route path="/about/intro" element={<Intro />} />
         <Route path="/about/greeting" element={<Greeting />} />
         <Route path="/about/team" element={<Team />} />
         <Route path="/about/location" element={<Location />} />
-
-        {/* Programs 페이지 */}
+        {/* 프로그램 */}
         <Route path="/programs/microdegree" element={<Microdegree />} />
         <Route path="/programs/wemeet" element={<Wemeet />} />
         <Route path="/programs/intern" element={<Intern />} />
-
-        {/* Apply 페이지 */}
+        {/* 신청 */}
         <Route path="/apply/form" element={<Form />} />
         <Route path="/apply/my" element={<My />} />
-
-        {/* Community 섹션 */}
+        {/* 커뮤니티 */}
         <Route path="/community/notice" element={<Notice />} />
         <Route path="/community/notice/new" element={<NoticeCreate />} />
+        <Route
+          path="/community/notice/edit/:id"
+          element={<NoticeCreate />}
+        />{" "}
+        {/* ✅ 수정 추가 */}
         <Route path="/community/notice/:id" element={<NoticeDetail />} />
         <Route path="/community/resources" element={<Resources />} />
         <Route path="/community/media" element={<Media />} />
