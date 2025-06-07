@@ -6,9 +6,8 @@ import {
   PageTitle,
   FormWrapper,
   ListWrapper,
+  ActionButton,
 } from "../../styles/QnA.styles.js";
-
-// API 함수 임포트
 import {
   getQnaList,
   createQna,
@@ -22,134 +21,87 @@ export default function QnA() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  // 수정 모드 관련 상태
   const [editingId, setEditingId] = useState(null);
   const [editTitle, setEditTitle] = useState("");
   const [editContent, setEditContent] = useState("");
-
-  // 답변 모드 관련 상태
   const [answeringId, setAnsweringId] = useState(null);
   const [answerText, setAnswerText] = useState("");
 
-  // QnA 목록 가져오기
-  const fetchList = async () => {
-    try {
-      const res = await getQnaList(0, 100);
-      console.log("🔍 getQnaList 응답:", res);
-      const list = res.data.content ?? [];
-      setItems(list);
-    } catch (err) {
-      console.error("❌ getQnaList 에러:", err);
-      alert("QnA 목록을 불러오는 중 오류가 발생했습니다.");
-    }
-  };
+  const userEmail = localStorage.getItem("userEmail");
+  const isAdmin = userEmail === "admin@gmail.com";
 
+  // 목록 불러오기
   useEffect(() => {
+    async function fetchList() {
+      try {
+        const res = await getQnaList(0, 100);
+        setItems(res.data.content || []);
+      } catch (e) {
+        alert("목록 로드 실패");
+      }
+    }
     fetchList();
   }, []);
 
-  // 신규 QnA 등록
-  const handleSubmit = async (e) => {
+  const handleCreate = async (e) => {
     e.preventDefault();
-    if (!title.trim() || !content.trim()) {
-      alert("제목과 내용을 모두 입력해주세요.");
-      return;
-    }
-
-    const newQna = {
-      title: title.trim(),
-      content: content.trim(),
-    };
-
+    if (!title.trim() || !content.trim()) return alert("제목/내용 입력");
     try {
-      const res = await createQna(newQna);
-      console.log("✅ createQna 성공:", res);
+      await createQna({ title, content });
       setTitle("");
       setContent("");
-      fetchList();
-    } catch (err) {
-      console.error("❌ createQna 에러:", err);
-      alert("QnA 등록 중 오류가 발생했습니다.");
+      // 재조회
+      const res = await getQnaList(0, 100);
+      setItems(res.data.content || []);
+    } catch {
+      alert("등록 실패");
     }
   };
 
-  // QnA 삭제
-  const handleDelete = async (id) => {
-    if (!window.confirm("정말 삭제하시겠습니까?")) return;
-
-    try {
-      const res = await deleteQna(id);
-      console.log("✅ deleteQna 성공:", res);
-      fetchList();
-    } catch (err) {
-      console.error("❌ deleteQna 에러:", err);
-      alert("삭제 중 오류가 발생했습니다.");
-    }
+  const startEdit = (q) => {
+    setEditingId(q.id);
+    setEditTitle(q.title);
+    setEditContent(q.content);
   };
 
-  // 수정 모드 진입
-  const enterEditMode = (qna) => {
-    setEditingId(qna.id);
-    setEditTitle(qna.title);
-    setEditContent(qna.content);
-  };
-
-  // 수정 모드 취소
-  const cancelEditMode = () => {
-    setEditingId(null);
-    setEditTitle("");
-    setEditContent("");
-  };
-
-  // QnA 수정 저장
   const handleUpdate = async (e) => {
     e.preventDefault();
-    if (!editTitle.trim() || !editContent.trim()) {
-      alert("수정할 제목과 내용을 모두 입력해주세요.");
-      return;
-    }
-
-    const updatedData = {
-      title: editTitle.trim(),
-      content: editContent.trim(),
-    };
-
     try {
-      const res = await updateQna(editingId, updatedData);
-      console.log("✅ updateQna 성공:", res);
-      cancelEditMode();
-      fetchList();
-    } catch (err) {
-      console.error("❌ updateQna 에러:", err);
-      alert("수정 중 오류가 발생했습니다.");
+      await updateQna(editingId, { title: editTitle, content: editContent });
+      setEditingId(null);
+      const res = await getQnaList(0, 100);
+      setItems(res.data.content || []);
+    } catch {
+      alert("수정 실패");
     }
   };
 
-  // 답변 모드 진입
-  const enterAnswerMode = (qna) => {
-    setAnsweringId(qna.id);
-    setAnswerText(qna.answer ?? "");
+  const handleDelete = async (id) => {
+    if (!window.confirm("삭제하시겠습니까?")) return;
+    try {
+      await deleteQna(id);
+      const res = await getQnaList(0, 100);
+      setItems(res.data.content || []);
+    } catch {
+      alert("삭제 실패");
+    }
   };
 
-  // 답변 저장
+  const startAnswer = (q) => {
+    setAnsweringId(q.id);
+    setAnswerText(q.answer || "");
+  };
+
   const handleAnswer = async (e) => {
     e.preventDefault();
-    if (!answerText.trim()) {
-      alert("답변 내용을 입력해주세요.");
-      return;
-    }
-
-    const answerData = { answer: answerText.trim() };
-
+    if (!answerText.trim()) return alert("답변 입력");
     try {
-      const res = await answerQna(answeringId, answerData);
-      console.log("✅ answerQna 성공:", res);
+      await answerQna(answeringId, { answer: answerText });
       setAnsweringId(null);
-      setAnswerText("");
-      fetchList();
-    } catch (err) {
-      console.error("❌ answerQna 에러:", err);
-      alert("답변 저장 중 오류가 발생했습니다.");
+      const res = await getQnaList(0, 100);
+      setItems(res.data.content || []);
+    } catch {
+      alert("답변 실패");
     }
   };
 
@@ -157,110 +109,71 @@ export default function QnA() {
     <Container>
       <PageTitle>QnA</PageTitle>
 
-      {/* 신규 등록 폼 */}
       {!editingId && !answeringId && (
-        <FormWrapper onSubmit={handleSubmit}>
+        <FormWrapper onSubmit={handleCreate}>
           <input
-            type="text"
             placeholder="제목"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            required
           />
           <textarea
-            rows="4"
             placeholder="내용"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            required
           />
-          <button type="submit">등록</button>
+          <ActionButton type="submit">등록</ActionButton>
         </FormWrapper>
       )}
 
-      {/* 수정 모드 폼 */}
       {editingId && (
         <FormWrapper onSubmit={handleUpdate}>
           <input
-            type="text"
-            placeholder="수정할 제목"
             value={editTitle}
             onChange={(e) => setEditTitle(e.target.value)}
-            required
           />
           <textarea
-            rows="4"
-            placeholder="수정할 내용"
             value={editContent}
             onChange={(e) => setEditContent(e.target.value)}
-            required
           />
-          <div style={{ display: "flex", gap: "0.5rem" }}>
-            <button type="submit">수정 저장</button>
-            <button type="button" onClick={cancelEditMode}>
-              취소
-            </button>
+          <div style={{ display: "flex", gap: 8 }}>
+            <ActionButton type="submit">저장</ActionButton>
+            <ActionButton onClick={() => setEditingId(null)}>취소</ActionButton>
           </div>
         </FormWrapper>
       )}
 
-      {/* 답변 모드 폼 */}
-      {answeringId && (
+      {answeringId && isAdmin && (
         <FormWrapper onSubmit={handleAnswer}>
           <textarea
-            rows="4"
-            placeholder="답변을 입력하세요"
+            placeholder="답변 입력"
             value={answerText}
             onChange={(e) => setAnswerText(e.target.value)}
-            required
           />
-          <div style={{ display: "flex", gap: "0.5rem" }}>
-            <button type="submit">답변 저장</button>
-            <button
-              type="button"
-              onClick={() => {
-                setAnsweringId(null);
-                setAnswerText("");
-              }}
-            >
+          <div style={{ display: "flex", gap: 8 }}>
+            <ActionButton type="submit">답변 저장</ActionButton>
+            <ActionButton onClick={() => setAnsweringId(null)}>
               취소
-            </button>
+            </ActionButton>
           </div>
         </FormWrapper>
       )}
 
-      {/* QnA 리스트 */}
       <ListWrapper>
-        {items.length === 0 && (
-          <li style={{ textAlign: "center", padding: "1rem", color: "#555" }}>
-            등록된 QnA가 없습니다.
-          </li>
-        )}
-
+        {items.length === 0 && <p>등록된 QnA가 없습니다.</p>}
         {items.map((q) => (
           <li key={q.id}>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <h3 style={{ margin: 0 }}>{q.title}</h3>
-              <div style={{ display: "flex", gap: "0.5rem" }}>
-                <button onClick={() => enterEditMode(q)}>수정</button>
-                <button onClick={() => handleDelete(q.id)}>삭제</button>
-                {!q.answer && (
-                  <button onClick={() => enterAnswerMode(q)}>답변</button>
-                )}
-              </div>
+            <h3>{q.title}</h3>
+            <p>{q.content}</p>
+            {q.answer && <p className="answer">🗨️ 답변: {q.answer}</p>}
+            <div style={{ marginTop: 8, display: "flex", gap: 8 }}>
+              <ActionButton onClick={() => startEdit(q)}>수정</ActionButton>
+              <ActionButton danger onClick={() => handleDelete(q.id)}>
+                삭제
+              </ActionButton>
+              {isAdmin && !q.answer && (
+                <ActionButton onClick={() => startAnswer(q)}>답변</ActionButton>
+              )}
             </div>
-            <p style={{ margin: "0.5rem 0" }}>{q.content}</p>
-            {q.answer && (
-              <p className="answer" style={{ margin: "0.5rem 0" }}>
-                🗨️ 답변: {q.answer}
-              </p>
-            )}
           </li>
         ))}
       </ListWrapper>
