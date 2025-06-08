@@ -1,9 +1,7 @@
-// src/pages/community/Media.jsx
-
 import React, { useEffect, useState } from "react";
 import { FaSearch, FaDownload } from "react-icons/fa";
+import { Link } from "react-router-dom"; // ✅ 추가
 
-// 스타일 임포트 (사이드 Nav 관련 부분 제거)
 import {
   Container,
   PageTitle,
@@ -16,15 +14,29 @@ export default function Media() {
   const [searchKeyword, setSearchKeyword] = useState("");
 
   useEffect(() => {
-    // 실제 API 호출 시 이 부분을 변경하세요.
+    // 실제 백엔드 연동 시 이곳을 API 호출로 교체
     setMediaItems([
-      { id: 1, title: "홍보자료 1", date: "2025.04.05", link: "#" },
-      { id: 2, title: "홍보자료 2", date: "2025.03.20", link: "#" },
-      { id: 3, title: "홍보자료 3", date: "2025.03.10", link: "#" },
+      {
+        id: 1,
+        title: "KAU 최신 홍보자료",
+        date: "2025.04.05",
+        link: "https://example.com/kau-promo.pdf",
+      },
+      {
+        id: 2,
+        title: "WE-MEET 프로젝트 소개",
+        date: "2025.03.20",
+        link: "https://example.com/wemeet-intro.pdf",
+      },
+      {
+        id: 3,
+        title: "2025 학술 자료 요약본",
+        date: "2025.03.10",
+        link: "https://example.com/kau-research.pdf",
+      },
     ]);
   }, []);
 
-  // 검색어가 포함된 항목만 필터링
   const filtered = mediaItems.filter((m) =>
     m.title.toLowerCase().includes(searchKeyword.trim().toLowerCase())
   );
@@ -33,7 +45,6 @@ export default function Media() {
     <Container>
       <PageTitle>홍보자료</PageTitle>
 
-      {/* 검색바 */}
       <SearchBarWrapper>
         <input
           type="text"
@@ -46,7 +57,6 @@ export default function Media() {
         </button>
       </SearchBarWrapper>
 
-      {/* 테이블 */}
       <TableWrapper>
         <table>
           <thead>
@@ -61,7 +71,14 @@ export default function Media() {
             {filtered.map((m) => (
               <tr key={m.id}>
                 <td>{m.id}</td>
-                <td>{m.title}</td>
+                <td>
+                  <Link
+                    to={`/community/media/${m.id}`}
+                    style={{ color: "#002870", textDecoration: "underline" }}
+                  >
+                    {m.title}
+                  </Link>
+                </td>
                 <td style={{ textAlign: "center" }}>{m.date}</td>
                 <td style={{ textAlign: "center" }}>
                   <a href={m.link} target="_blank" rel="noreferrer">

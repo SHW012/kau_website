@@ -8,42 +8,23 @@ import {
   ImageCard,
 } from "../../styles/Gallery.styles.js";
 
+// ✅ 파일 확장자 jpg로 수정
+import promo1 from "../../assets/홍보1.png";
+import promo2 from "../../assets/홍보2.jpg";
+import promo3 from "../../assets/홍보3.jpg";
+import promo4 from "../../assets/홍보4.jpg";
+import promo5 from "../../assets/홍보5.jpg";
+
 export default function Gallery() {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
-    // 실제 API 호출 시 이 부분을 변경하세요.
     setImages([
-      {
-        id: 1,
-        title: "행사 사진 1",
-        src: "https://via.placeholder.com/300x200",
-      },
-      {
-        id: 2,
-        title: "행사 사진 2",
-        src: "https://via.placeholder.com/300x200",
-      },
-      {
-        id: 3,
-        title: "행사 사진 3",
-        src: "https://via.placeholder.com/300x200",
-      },
-      {
-        id: 4,
-        title: "행사 사진 4",
-        src: "https://via.placeholder.com/300x200",
-      },
-      {
-        id: 5,
-        title: "행사 사진 5",
-        src: "https://via.placeholder.com/300x200",
-      },
-      {
-        id: 6,
-        title: "행사 사진 6",
-        src: "https://via.placeholder.com/300x200",
-      },
+      { id: 1, title: "홍보 자료 1", src: promo1 },
+      { id: 2, title: "홍보 자료 2", src: promo2 },
+      { id: 3, title: "홍보 자료 3", src: promo3 },
+      { id: 4, title: "홍보 자료 4", src: promo4 },
+      { id: 5, title: "홍보 자료 5", src: promo5 },
     ]);
   }, []);
 

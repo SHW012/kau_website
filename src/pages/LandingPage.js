@@ -1,10 +1,8 @@
+// src/pages/LandingPage.jsx
+
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
-// 배너 이미지
 import banner from "../assets/kau_image.png";
-
-// 스타일
 import {
   Wrapper,
   HeroSection,
@@ -14,36 +12,36 @@ import {
   ListItem,
   ListDate,
 } from "../styles/LandingPage.styles";
-
-// 챗봇
 import Chatbot from "../components/Chatbot";
-
-// 아이콘
 import { FaBullhorn, FaBell } from "react-icons/fa";
-
-// API
 import { getNoticeList } from "../api/api";
 
 export default function LandingPage() {
   const [latestNotices, setLatestNotices] = useState([]);
+  const [mediaItems, setMediaItems] = useState([]);
 
   useEffect(() => {
+    // 공지사항 최신 2개
     (async () => {
       try {
-        const res = await getNoticeList(0, 2); // 최신 2개
+        const res = await getNoticeList(0, 2);
         setLatestNotices(res.data.content || []);
       } catch (err) {
-        console.error("공지사항 불러오기 실패:", err);
+        console.error("공지사항 로드 실패", err);
       }
     })();
+
+    // 홍보자료 최신 2개 (임시 데이터)
+    setMediaItems([
+      { id: 1, title: "KAU 최신 홍보자료", date: "2025.04.05" },
+      { id: 2, title: "WE-MEET 프로젝트 소개", date: "2025.03.20" },
+    ]);
   }, []);
 
   return (
     <Wrapper>
-      {/* 배너 */}
       <HeroSection bannerImage={banner} />
 
-      {/* 홍보자료 & 공지사항 */}
       <ContentSection>
         {/* 홍보자료 */}
         <ContentBox>
@@ -54,14 +52,17 @@ export default function LandingPage() {
             홍보자료
           </SectionTitle>
           <ul>
-            <ListItem>
-              <ListDate>2025.04.05</ListDate>
-              KAU 최신 홍보자료 보기
-            </ListItem>
-            <ListItem>
-              <ListDate>2025.03.20</ListDate>
-              WE-MEET 프로젝트 안내
-            </ListItem>
+            {mediaItems.map((item) => (
+              <ListItem key={item.id}>
+                <ListDate>{item.date}</ListDate>
+                <Link
+                  to={`/community/media/${item.id}`}
+                  style={{ color: "#fff", textDecoration: "none" }}
+                >
+                  {item.title}
+                </Link>
+              </ListItem>
+            ))}
           </ul>
         </ContentBox>
 
@@ -79,7 +80,7 @@ export default function LandingPage() {
                 <ListDate>{notice.date}</ListDate>
                 <Link
                   to={`/community/notice/${notice.id}`}
-                  style={{ textDecoration: "none", color: "#333" }}
+                  style={{ color: "#fff", textDecoration: "none" }}
                 >
                   {notice.title}
                 </Link>
@@ -89,7 +90,6 @@ export default function LandingPage() {
         </ContentBox>
       </ContentSection>
 
-      {/* 챗봇 */}
       <Chatbot />
     </Wrapper>
   );

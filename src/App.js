@@ -1,5 +1,3 @@
-// src/App.js
-
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import GlobalStyle from "./styles/GlobalStyle";
@@ -19,10 +17,11 @@ import Form from "./pages/apply/Form";
 import My from "./pages/apply/My";
 
 import Notice from "./pages/community/Notice";
-import NoticeCreate from "./pages/community/NoticeCreate"; // 생성 + 수정 겸용
+import NoticeCreate from "./pages/community/NoticeCreate";
 import NoticeDetail from "./pages/community/NoticeDetail";
 import Resources from "./pages/community/Resources";
 import Media from "./pages/community/Media";
+import MediaDetail from "./pages/community/MediaDetail"; // ✅ 홍보자료 상세 페이지
 import Gallery from "./pages/community/Gallery";
 import QnA from "./pages/community/QnA";
 
@@ -35,7 +34,6 @@ function AppContent() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
-    // ✅ 토큰 우선 localStorage에서 찾고, 없으면 쿠키에서 찾기
     let token = localStorage.getItem("accessToken");
     if (!token) {
       token = document.cookie
@@ -66,25 +64,20 @@ function AppContent() {
         {/* 인증 */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-
         {/* 메인 */}
         <Route path="/" element={<LandingPage />} />
-
         {/* 소개 */}
         <Route path="/about/intro" element={<Intro />} />
         <Route path="/about/greeting" element={<Greeting />} />
         <Route path="/about/team" element={<Team />} />
         <Route path="/about/location" element={<Location />} />
-
         {/* 프로그램 */}
         <Route path="/programs/microdegree" element={<Microdegree />} />
         <Route path="/programs/wemeet" element={<Wemeet />} />
         <Route path="/programs/intern" element={<Intern />} />
-
         {/* 신청 */}
         <Route path="/apply/form" element={<Form />} />
         <Route path="/apply/my" element={<My />} />
-
         {/* 커뮤니티 */}
         <Route path="/community/notice" element={<Notice />} />
         <Route path="/community/notice/new" element={<NoticeCreate />} />
@@ -92,6 +85,8 @@ function AppContent() {
         <Route path="/community/notice/:id" element={<NoticeDetail />} />
         <Route path="/community/resources" element={<Resources />} />
         <Route path="/community/media" element={<Media />} />
+        <Route path="/community/media/:id" element={<MediaDetail />} />{" "}
+        {/* ✅ 추가됨 */}
         <Route path="/community/gallery" element={<Gallery />} />
         <Route path="/community/qna" element={<QnA />} />
       </Routes>
