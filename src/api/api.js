@@ -2,7 +2,8 @@
 
 import axios from "axios";
 
-const API_BASE_URL = "http://13.125.148.30:8080/api";
+// ✅ 새 API 주소로 수정됨
+const API_BASE_URL = "https://eggeulrim.shop/api";
 
 // ✅ Axios 인스턴스 생성
 const api = axios.create({
@@ -10,7 +11,7 @@ const api = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials: true, // ✅ 인증 정보 쿠키 포함 허용
+  withCredentials: true,
 });
 
 // ✅ JWT 토큰을 Axios Header에 붙이는 함수
